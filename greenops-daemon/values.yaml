@@ -9,6 +9,7 @@ imagePullPolicy: IfNotPresent
 restartPolicy: Always
 imagePullSecret: regcred
 greenopsApiKey: ""
+createSecret: false
 apis:
   commandDelegatorUrl: "greenops-commanddelegator.greenops.svc.cluster.local:8085"
   greenopsServerUrl: "greenops-server.greenops.svc.cluster.local:8080"
