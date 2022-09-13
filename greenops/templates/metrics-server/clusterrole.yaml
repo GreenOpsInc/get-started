@@ -1,0 +1,23 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.metricsServer.name }}
+  namespace: {{ .Values.common.namespace }}
+rules:
+  - apiGroups: ["", "core", "pipeline.greenopsinc.io"]
+    resources: {{ .Values.metricsServer.role.resources }}
+    verbs: [ "*" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.metricsServer.name }}
+  namespace: {{ .Values.common.namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.metricsServer.name }}
+    namespace: {{ .Values.common.namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.metricsServer.name }}
+  apiGroup: rbac.authorization.k8s.io

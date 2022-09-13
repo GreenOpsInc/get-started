@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: {{ .Values.controller.name }}
+  name: {{ .Values.controller.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  replicas: {{ .Values.controller.replicas }}
+  selector:
+    matchLabels:
+      service: {{ .Values.controller.name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        service: {{ .Values.controller.name }}
+    spec:
+      serviceAccountName: {{ .Values.controller.name }}
+      containers:
+        - env:
+            - name: METRICS_BIND_ADDRESS_ENV_NAME
+              value: {{ .Values.controller.metrics.bindAddress }}
+            - name: HEALTH_PROBE_BIND_ADDRESS_ENV_NAME
+              value: {{ .Values.controller.metrics.healthProbeBindAddress }}
+            - name: ATLAS_DB_ADDRESS
+              value: {{ .Values.common.dbAddress }}
+          image: {{ .Values.controller.image }}
+          imagePullPolicy: {{ .Values.controller.imagePullPolicy }}
+          name: {{ .Values.controller.name }}
+          resources: {}
+      imagePullSecrets:
+        - name: {{ .Values.common.imagePullSecret }}
+      restartPolicy: {{ .Values.controller.restartPolicy}}

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: {{ .Values.server.name }}
+  name: {{ .Values.server.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  replicas: {{ .Values.server.replicas }}
+  selector:
+    matchLabels:
+      service: {{ .Values.server.name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        service: {{ .Values.server.name }}
+    spec:
+      serviceAccountName: {{ .Values.server.name }}
+      containers:
+        - env:
+            - name: ORG_NAME
+              value: {{ .Values.common.orgName }}
+            - name: SSO_CLIENT_ID
+              value: {{ .Values.server.sso.clientId }}
+            - name: SSO_CLIENT_SECRET
+              value: {{ .Values.server.sso.clientSecret }}
+            - name: SSO_REDIRECT_URI
+              value: "https://{{ .Values.server.externalUrl }}:{{ .Values.server.nodePort }}/oauth2/callback"
+            - name: SSO_APP_REDIRECT_URI
+              value: "https://{{ .Values.server.externalUrl }}:{{ .Values.server.nodePort }}"
+            - name: SSO_ISSUER_URI
+              value: https://{{ .Values.common.argoCdUrl }}/api/dex
+            - name: LICENSE_KEY
+              value: {{ .Values.common.licenseKey }}
+            - name: ATLAS_DB_ADDRESS
+              value: {{ .Values.common.dbAddress }}
+          image: {{ .Values.server.image }}
+          imagePullPolicy: {{ .Values.server.imagePullPolicy }}
+          name: {{ .Values.server.name }}
+          ports:
+            - containerPort: {{ .Values.server.port }}
+          resources: {}
+      imagePullSecrets:
+        - name: {{ .Values.common.imagePullSecret }}
+      restartPolicy: {{ .Values.server.restartPolicy}}

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: {{ .Values.name }}
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      service: {{ .Values.name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        service: {{ .Values.name }}
+    spec:
+      serviceAccountName: {{ .Values.name }}
+      containers:
+        - env:
+            - name: WORKFLOW_TRIGGER_SERVER_ADDR
+              value: https://{{ .Values.apis.greenopsServerUrl }}
+            - name: COMMAND_DELEGATOR_URL
+              value: https://{{ .Values.apis.commandDelegatorUrl }}
+            - name: CLUSTER_NAME
+              value: {{ .Values.clusterName }}
+            - name: NAMESPACE
+              value: {{ .Values.namespace }}
+            - name: ARGO_WORKFLOWS_URL
+              value: {{ .Values.apis.argo.workflows.url }}
+            - name: GREENOPS_API_KEY
+              value: {{ .Values.greenopsApiKey }}
+          image: {{ .Values.image }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          name: {{ .Values.name }}
+          resources: {}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecret }}
+      restartPolicy: {{ .Values.restartPolicy}}

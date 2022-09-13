@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: {{ .Values.pipelineRepoServer.name }}
+  name: {{ .Values.pipelineRepoServer.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  type: NodePort
+  ports:
+    - name: {{ quote .Values.pipelineRepoServer.port }}
+      port: {{ .Values.pipelineRepoServer.port }}
+      targetPort: {{ .Values.pipelineRepoServer.port }}
+      nodePort: {{ .Values.pipelineRepoServer.nodePort }}
+  selector:
+    service: {{ .Values.pipelineRepoServer.name }}

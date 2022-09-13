@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: {{ .Values.redis.name }}
+  name: {{ .Values.redis.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  replicas: {{ .Values.redis.replicas }}
+  selector:
+    matchLabels:
+      service: {{ .Values.redis.name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        service: {{ .Values.redis.name }}
+    spec:
+      containers:
+        - args:
+            - '--appendonly'
+            - 'yes'
+            - '--appendfsync'
+            - always
+            - '--save 60 1'
+          image: {{ .Values.redis.image }}
+          imagePullPolicy: {{ .Values.redis.imagePullPolicy }}
+          name: {{ .Values.redis.name }}
+          ports:
+            - containerPort: {{ .Values.redis.port }}
+          resources: {}
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
+      imagePullSecrets:
+        - name: {{ .Values.common.imagePullSecret }}
+      restartPolicy: {{ .Values.redis.restartPolicy }}
+      {{ if .Values.common.usePersistentVolume }}
+      volumes:
+        - name: {{ .Values.redis.volume.name }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.redis.volume.persistentVolumeClaim.name }}
+      {{ else }}
+      volumes:
+        - name: redis-storage
+          emptyDir: { }
+      {{ end }}

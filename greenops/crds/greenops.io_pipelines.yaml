@@ -1,0 +1,108 @@
+# crds should not use values.yaml file
+# it's more efficient to copy entire crd from /pipeline/config/crd/bases/
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.8.0
+  creationTimestamp: null
+  name: pipelines.pipeline.greenopsinc.io
+spec:
+  group: pipeline.greenopsinc.io
+  names:
+    kind: Pipeline
+    listKind: PipelineList
+    plural: pipelines
+    singular: pipeline
+  scope: Namespaced
+  versions:
+    - name: v1
+      schema:
+        openAPIV3Schema:
+          description: Pipeline is the Schema for the pipelines API
+          properties:
+            apiVersion:
+              description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+              type: string
+            kind:
+              description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+              type: string
+            metadata:
+              type: object
+            spec:
+              description: PipelineSpec defines the desired state of Pipeline
+              properties:
+                clusterName:
+                  type: string
+                gitRepoSchema:
+                  properties:
+                    gitRepo:
+                      type: string
+                    pathToRoot:
+                      type: string
+                  required:
+                    - gitRepo
+                    - pathToRoot
+                  type: object
+                pipelineName:
+                  type: string
+                reconciliationSchema:
+                  properties:
+                    linkedArgoCdApplication:
+                      type: string
+                    linkedPipelineName:
+                      type: string
+                  required:
+                    - linkedArgoCdApplication
+                    - linkedPipelineName
+                  type: object
+                teamName:
+                  type: string
+              required:
+                - clusterName
+                - gitRepoSchema
+                - pipelineName
+                - reconciliationSchema
+                - teamName
+              type: object
+            status:
+              description: PipelineStatus defines the observed state of Pipeline
+              properties:
+                events:
+                  items:
+                    type: string
+                  type: array
+                pipelineQueue:
+                  items:
+                    properties:
+                      orgName:
+                        type: string
+                      pipelineUvn:
+                        type: string
+                      revisionHash:
+                        type: string
+                      teamName:
+                        type: string
+                    required:
+                      - orgName
+                      - pipelineUvn
+                      - revisionHash
+                      - teamName
+                    type: object
+                  type: array
+              type: object
+          type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

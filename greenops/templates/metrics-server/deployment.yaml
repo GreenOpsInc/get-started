@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: {{ .Values.metricsServer.name }}
+  name: {{ .Values.metricsServer.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  replicas: {{ .Values.metricsServer.replicas }}
+  selector:
+    matchLabels:
+      service: {{ .Values.metricsServer.name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        service: {{ .Values.metricsServer.name }}
+    spec:
+      serviceAccountName: {{ .Values.metricsServer.name }}
+      containers:
+        - env:
+            - name: ORG_NAME
+              value: {{ .Values.common.orgName }}
+            - name: SERVING_PORT
+              value: {{ quote .Values.metricsServer.port }}
+            - name: ATLAS_DB_ADDRESS
+              value: {{ .Values.common.dbAddress }}
+          image: {{ .Values.metricsServer.image }}
+          imagePullPolicy: {{ .Values.metricsServer.imagePullPolicy }}
+          name: {{ .Values.metricsServer.name }}
+          ports:
+            - containerPort: {{ .Values.metricsServer.port }}
+          resources: {}
+      imagePullSecrets:
+        - name: {{ .Values.common.imagePullSecret }}
+      restartPolicy: {{ .Values.metricsServer.restartPolicy}}

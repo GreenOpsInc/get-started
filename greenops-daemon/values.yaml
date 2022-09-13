@@ -1,0 +1,22 @@
+name: greenops-daemon
+namespace: greenops
+argoNamespace: argo
+orgName: org
+clusterName: ""
+image: docker.io/greenopsinc/godaemon:v0.10.0-b2
+replicas: 1
+imagePullPolicy: IfNotPresent
+restartPolicy: Always
+imagePullSecret: regcred
+greenopsApiKey: ""
+apis:
+  commandDelegatorUrl: "greenops-commanddelegator.greenops.svc.cluster.local:8085"
+  greenopsServerUrl: "greenops-server.greenops.svc.cluster.local:8080"
+  argo:
+    workflows:
+      url: ""
+imageCredentials:
+  registry: "https://index.docker.io/v1/"
+  username: ""
+  password: ""
+  email: ""

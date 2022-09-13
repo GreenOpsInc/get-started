@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: {{ .Values.pipelineRepoServer.name }}
+  name: {{ .Values.pipelineRepoServer.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  replicas: {{ .Values.pipelineRepoServer.replicas }}
+  selector:
+    matchLabels:
+      service: {{ .Values.pipelineRepoServer.name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        service: {{ .Values.pipelineRepoServer.name }}
+    spec:
+      serviceAccountName: {{ .Values.pipelineRepoServer.name }}
+      containers:
+          - image: {{ .Values.pipelineRepoServer.image }}
+            env:
+              - name: ATLAS_DB_ADDRESS
+                value: {{ .Values.common.dbAddress }}
+            imagePullPolicy: {{ .Values.pipelineRepoServer.imagePullPolicy }}
+            name: {{ .Values.pipelineRepoServer.name }}
+            ports:
+              - containerPort: {{ .Values.pipelineRepoServer.port }}
+            resources: {}
+      imagePullSecrets:
+        - name: {{ .Values.common.imagePullSecret }}
+      restartPolicy: {{ .Values.pipelineRepoServer.restartPolicy}}

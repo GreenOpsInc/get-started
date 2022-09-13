@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: {{ .Values.commandDelegator.name }}
+  name: {{ .Values.commandDelegator.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  type: NodePort
+  ports:
+    - name: {{ quote .Values.commandDelegator.port }}
+      port: {{ .Values.commandDelegator.port }}
+      targetPort: {{ .Values.commandDelegator.port }}
+      nodePort: {{ .Values.commandDelegator.nodePort }}
+  selector:
+    service: {{ .Values.commandDelegator.name }}

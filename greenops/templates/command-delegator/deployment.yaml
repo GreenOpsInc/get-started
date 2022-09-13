@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: {{ .Values.commandDelegator.name }}
+  name: {{ .Values.commandDelegator.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  replicas: {{ .Values.commandDelegator.replicas }}
+  selector:
+    matchLabels:
+      service: {{ .Values.commandDelegator.name }}
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        service: {{ .Values.commandDelegator.name }}
+    spec:
+      serviceAccountName: {{ .Values.commandDelegator.name }}
+      containers:
+          - image: {{ .Values.commandDelegator.image }}
+            imagePullPolicy: {{ .Values.commandDelegator.imagePullPolicy }}
+            name: {{ .Values.commandDelegator.name }}
+            ports:
+              - containerPort: {{ .Values.commandDelegator.port }}
+            resources: {}
+      imagePullSecrets:
+        - name: {{ .Values.common.imagePullSecret }}
+      restartPolicy: {{ .Values.commandDelegator.restartPolicy}}

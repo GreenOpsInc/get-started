@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: {{ .Values.redis.name }}
+  name: {{ .Values.redis.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  type: NodePort
+  ports:
+    - name: {{ quote .Values.redis.name }}
+      port: {{ .Values.redis.port }}
+      targetPort: {{ .Values.redis.port }}
+  selector:
+    service: {{ .Values.redis.name }}

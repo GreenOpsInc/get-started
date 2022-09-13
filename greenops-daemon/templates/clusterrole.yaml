@@ -1,0 +1,31 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.name }}
+rules:
+  - verbs:
+      - '*'
+    apiGroups:
+      - ''
+      - argoproj.io
+    resources:
+      - namespaces
+      - secrets
+      - workflows
+      - templates
+      - workflowtemplates
+      - clusterworkflowtemplates
+      - cronworkflows
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.name }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.name }}
+    namespace: {{ .Values.namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.name }}
+  apiGroup: rbac.authorization.k8s.io

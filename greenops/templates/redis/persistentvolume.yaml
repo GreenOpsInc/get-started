@@ -1,0 +1,42 @@
+{{ if .Values.common.usePersistentVolume }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.redis.volume.persistentVolume.name }}
+  labels:
+    {{- range $key, $val := .Values.redis.volume.persistentVolume.labels }}
+    {{ $key }}: {{ $val | quote }}
+    {{- end}}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  capacity:
+    storage: 1Gi
+  {{- if .Values.redis.volume.persistentVolume.gcePersistentDisk.pdName }}  # gcp setup
+  gcePersistentDisk:
+    pdName: {{ .Values.redis.volume.persistentVolume.gcePersistentDisk.pdName }}
+    fsType: {{ .Values.redis.volume.persistentVolume.gcePersistentDisk.fsType }}
+  {{ else }}  # minikube setup
+  hostPath:
+    path: /data/pv0001/
+  {{ end }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.redis.volume.persistentVolumeClaim.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: {{ .Values.redis.volume.persistentVolume.name }}
+  storageClassName: standard
+  volumeMode: Filesystem
+{{ end }}

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.grafana.name }}
+  namespace: {{ .Values.common.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.grafana.name }}
+  template:
+    metadata:
+      name: {{ .Values.grafana.name }}
+      labels:
+        app: {{ .Values.grafana.name }}
+    spec:
+      containers:
+        - name: {{ .Values.grafana.name }}
+          image: {{ .Values.grafana.image }}
+          ports:
+            - name: {{ .Values.grafana.name }}
+              containerPort: {{ .Values.grafana.port }}
+          resources:
+            limits:
+              memory: "1Gi"
+            requests:
+              memory: 500M
+          volumeMounts:
+            - mountPath: /var/lib/grafana
+              name: grafana-storage
+            - mountPath: /etc/grafana/provisioning/datasources
+              name: {{ .Values.grafana.configmapName }}
+              readOnly: false
+      volumes:
+        - name: grafana-storage
+          emptyDir: {}
+        - name: {{ .Values.grafana.configmapName }}
+          configMap:
+            defaultMode: 420
+            name: {{ .Values.grafana.configmapName }}
