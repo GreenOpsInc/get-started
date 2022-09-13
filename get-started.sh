@@ -7,7 +7,7 @@ kubectl create ns greenops
 echo -n "Set up the GreenOps SSO secret. Please enter an alphanumeric secret/token (uppercase and lowercase are fine) that you would like to use. If nothing is entered, a default value will be used.":
 read -s ssokey
 if [ -z "$ssokey" ]; then ssokey=FdsqnN7HXp3d9b4V6nhtzcW9jghNDEZYN3bJUFfLEP95QsxGKgd67X4Q7ScR9ztV; fi;
-kubectl create secret generic greenops-sso --from-literal=client-id=Z3JlZW5vcHMtc3Nv --from-literal=client-secret=$ssokey -n greenops
+# kubectl create secret generic greenops-sso --from-literal=client-id=Z3JlZW5vcHMtc3Nv --from-literal=client-secret=$ssokey -n greenops
 kubectl create secret generic greenops-sso --from-literal=client-id=Z3JlZW5vcHMtc3Nv --from-literal=client-secret=$ssokey -n argocd
 kubectl patch deployment argocd-dex-server -n argocd -p '{"spec":{"template":{"spec":{"containers":[{"env":[{"name":"GREENOPS_SSO_CLIENT_SECRET","valueFrom":{"secretKeyRef":{"name":"greenops-sso", "key":"client-secret"}}}],"name":"dex"}]}}}}'
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
@@ -94,6 +94,6 @@ helm install greenops ./greenops-0.1.0.tgz \
 
 
 # helm install greenops-daemon ./greenops-daemon-0.1.0.tgz \
-#   --set 'clusterName=cluster-1' \
-#   --set 'greenopsApiKey=greenopsapikey' \
+#   --set 'clusterName=hubcluster' \
+#   --set 'greenopsApiKey=QKRMnD4MR636KLtiuMzXX0NXjBvzYUgOKWKhDY2j42mPjVIUp97tQjNHJcaOAGeD' \
 #   --set 'apis.argo.workflows.url='"$(minikube ip):$(kubectl get svc argo-server -n argo -o jsonpath='{.spec.ports[?(@.port==2746)].nodePort}')"''

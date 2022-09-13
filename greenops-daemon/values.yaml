@@ -3,7 +3,7 @@ namespace: greenops
 argoNamespace: argo
 orgName: org
 clusterName: ""
-image: docker.io/greenopsinc/godaemon:v0.10.0-b2
+image: docker.io/greenopsinc/godaemon:v0.10.0-b3
 replicas: 1
 imagePullPolicy: IfNotPresent
 restartPolicy: Always
@@ -11,7 +11,7 @@ imagePullSecret: regcred
 greenopsApiKey: ""
 createSecret: false
 apis:
-  commandDelegatorUrl: "greenops-commanddelegator.greenops.svc.cluster.local:8085"
+  commandDelegatorUrl: "greenops-commanddelegator.greenops.svc.cluster.local:8080"
   greenopsServerUrl: "greenops-server.greenops.svc.cluster.local:8080"
   argo:
     workflows:
