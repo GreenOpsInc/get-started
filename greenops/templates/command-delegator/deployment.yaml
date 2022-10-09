@@ -18,12 +18,17 @@ spec:
     spec:
       serviceAccountName: {{ .Values.commandDelegator.name }}
       containers:
-          - image: {{ .Values.commandDelegator.image }}
-            imagePullPolicy: {{ .Values.commandDelegator.imagePullPolicy }}
-            name: {{ .Values.commandDelegator.name }}
-            ports:
-              - containerPort: {{ .Values.commandDelegator.port }}
-            resources: {}
+        - env:
+            - name: ORG_NAME
+              value: {{ .Values.common.orgName }}
+            - name: ATLAS_DB_ADDRESS
+              value: {{ .Values.common.dbAddress }}
+          image: {{ .Values.commandDelegator.image }}
+          imagePullPolicy: {{ .Values.commandDelegator.imagePullPolicy }}
+          name: {{ .Values.commandDelegator.name }}
+          ports:
+            - containerPort: {{ .Values.commandDelegator.port }}
+          resources: {}
       imagePullSecrets:
         - name: {{ .Values.common.imagePullSecret }}
       restartPolicy: {{ .Values.commandDelegator.restartPolicy}}

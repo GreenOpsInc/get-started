@@ -15,20 +15,12 @@ common:
 server:
   name: greenops-server
   externalUrl: ""
-  image: docker.io/greenopsinc/goserver:v0.10.0-b3
+  image: docker.io/greenopsinc/goserver:v0.10.0-b7
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
   nodePort: 30007
   port: 8080
-  role:
-    apiGroups: ["", "core", "pipeline.greenopsinc.io"]
-    resources:
-      - secrets
-      - namespaces
-      - configmaps
-      - pipelines
-      - pipelines/status
   sso:
     secretName: greenops-sso
     clientId: ""
@@ -36,68 +28,40 @@ server:
 
 controller:
   name: greenops-controller
-  image: docker.io/greenopsinc/controller:v0.10.0-b3
+  image: docker.io/greenopsinc/controller:v0.10.0-b7
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
   metrics:
     bindAddress: localhost:8082
     healthProbeBindAddress: localhost:8083
-  role:
-    apiGroups: ["", "core", "pipeline.greenopsinc.io"]
-    resources:
-      - secrets
-      - namespaces
-      - configmaps
-      - pipelines
-      - pipelines/status
 
 pipelineRepoServer:
   name: greenops-reposerver
-  image: docker.io/greenopsinc/pipelinereposerver:v0.10.0-b3
+  image: docker.io/greenopsinc/pipelinereposerver:v0.10.0-b7
   nodePort: 32522
   port: 8080
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
-  role:
-    apiGroups: ["", "core"]
-    resources:
-      - secrets
-      - namespaces
-      - configmaps
 
 commandDelegator:
   name: greenops-commanddelegator
-  image: docker.io/greenopsinc/commanddelegator:v0.10.0-b3
+  image: docker.io/greenopsinc/commanddelegator:v0.10.0-b7
   nodePort: 32533
   port: 8080
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
-  role:
-    apiGroups: ["", "core"]
-    resources:
-      - secrets
-      - namespaces
-      - configmaps
 
 metricsServer:
   name: greenops-metrics-server
-  image: docker.io/greenopsinc/greenops-metrics-server:v0.10.0-b3
+  image: docker.io/greenopsinc/greenops-metrics-server:v0.10.0-b7
   nodePort: 32544
   port: 2112
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
-  role:
-    apiGroups: ["", "core", "pipeline.greenopsinc.io"]
-    resources:
-      - secrets
-      - namespaces
-      - configmaps
-      - pipelines
-      - pipelines/status
 
 redis:
   name: redisserver
