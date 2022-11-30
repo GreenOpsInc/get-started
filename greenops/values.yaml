@@ -21,10 +21,10 @@ server:
   restartPolicy: Always
   nodePort: 30007
   port: 8080
-  sso:
-    secretName: greenops-sso
-    clientId: ""
-    clientSecret: ""
+#   sso:
+#     secretName: greenops-sso
+#     clientId: ""
+#     clientSecret: ""
 
 controller:
   name: greenops-controller
