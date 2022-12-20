@@ -1,3 +1,4 @@
+{{- /*
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,7 +36,7 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.common.imagePullSecret }}
       restartPolicy: {{ .Values.redis.restartPolicy }}
-      {{ if .Values.common.usePersistentVolume }}
+      {{ if .Values.common.db.usePersistentVolume }}
       volumes:
         - name: {{ .Values.redis.volume.name }}
           persistentVolumeClaim:
@@ -45,3 +46,4 @@ spec:
         - name: redis-storage
           emptyDir: { }
       {{ end }}
+*/}}

@@ -20,21 +20,25 @@ spec:
       containers:
         - env:
             - name: WORKFLOW_TRIGGER_SERVER_ADDR
-              value: https://{{ .Values.apis.greenopsServerUrl }}
+              value: https://{{ .Values.common.greenopsServer.url }}
             - name: COMMAND_DELEGATOR_URL
-              value: https://{{ .Values.apis.commandDelegatorUrl }}
+              value: https://{{ .Values.common.commandDelegator.url }}
             - name: CLUSTER_NAME
-              value: {{ .Values.clusterName }}
+              value: {{ .Values.common.clusterName }}
             - name: NAMESPACE
               value: {{ .Values.namespace }}
             - name: ARGO_WORKFLOWS_URL
-              value: {{ .Values.apis.argo.workflows.url }}
+              value: {{ .Values.common.argo.workflows.url }}
             - name: GREENOPS_API_KEY
-              value: {{ .Values.greenopsApiKey }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.common.greenopsApiKey.secretName }}
+                  key: {{ .Values.common.greenopsApiKey.key }}
+                  optional: false
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           name: {{ .Values.name }}
           resources: {}
       imagePullSecrets:
-        - name: {{ .Values.imagePullSecret }}
+        - name: {{ .Values.common.imagePullSecret }}
       restartPolicy: {{ .Values.restartPolicy}}

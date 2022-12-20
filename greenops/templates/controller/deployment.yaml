@@ -25,6 +25,14 @@ spec:
               value: {{ .Values.controller.metrics.healthProbeBindAddress }}
             - name: ATLAS_DB_ADDRESS
               value: {{ .Values.common.dbAddress }}
+            {{ if .Values.common.db.password.enabled }}
+            - name: ATLAS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.common.db.password.secretName }}
+                  key: {{ .Values.common.db.password.key }}
+                  optional: false
+            {{ end }}
           image: {{ .Values.controller.image }}
           imagePullPolicy: {{ .Values.controller.imagePullPolicy }}
           name: {{ .Values.controller.name }}

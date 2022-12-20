@@ -21,20 +21,34 @@ spec:
         - env:
             - name: ORG_NAME
               value: {{ .Values.common.orgName }}
+            - name: SERVER_EXTERNAL_URI
+              value: {{ .Values.common.server.greenopsUrl }}
+            - name: LICENSE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.common.license.secretName }}
+                  key: {{ .Values.common.license.key }}
+                  optional: false
+            - name: ATLAS_DB_ADDRESS
+              value: {{ .Values.common.dbAddress }}
+            {{ if .Values.common.db.password.enabled }}
+            - name: ATLAS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.common.db.password.secretName }}
+                  key: {{ .Values.common.db.password.key }}
+                  optional: false
+            {{ end }}
+            {{ if .Values.common.sso.enabled }}
             - name: SSO_CLIENT_ID
               value: {{ .Values.server.sso.clientId }}
             - name: SSO_CLIENT_SECRET
               value: {{ .Values.server.sso.clientSecret }}
             - name: SSO_REDIRECT_URI
-              value: "https://{{ .Values.server.externalUrl }}:{{ .Values.server.nodePort }}/oauth2/callback"
-            - name: SSO_APP_REDIRECT_URI
-              value: "https://{{ .Values.server.externalUrl }}:{{ .Values.server.nodePort }}"
+              value: "https://{{ .Values.common.server.greenopsUrl }}/oauth2/callback"
             - name: SSO_ISSUER_URI
               value: https://{{ .Values.common.argoCdUrl }}/api/dex
-            - name: LICENSE_KEY
-              value: {{ .Values.common.licenseKey }}
-            - name: ATLAS_DB_ADDRESS
-              value: {{ .Values.common.dbAddress }}
+            {{ end }}
           image: {{ .Values.server.image }}
           imagePullPolicy: {{ .Values.server.imagePullPolicy }}
           name: {{ .Values.server.name }}

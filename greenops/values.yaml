@@ -1,34 +1,37 @@
 common:
+  db:
+    address: redisserver.greenops.svc.cluster.local:6379
+    password:
+      enabled: false
+      secretName: ""
+      key: ""
+    # Currently only GCP is supported for automated PersistentVolume creation. Other cloud providers have to be done manually.
+    usePersistentVolume: false
+  server:
+    greenopsUrl: ""
+  sso:
+    enabled: false
+    argoCdUrl: ""
+    secretName: greenops-sso
   namespace: greenops
   orgName: org
-  argoCdUrl: ""
-  licenseKey: ""
-  dbAddress: ""
-  usePersistentVolume: false
   imagePullSecret: regcred
-  imageCredentials:
-    registry: "https://index.docker.io/v1/"
-    username: ""
-    password: ""
-    email: ""
+  license:
+    secretName: greenops-license
+    key: license
 
 server:
   name: greenops-server
-  externalUrl: ""
-  image: docker.io/greenopsinc/goserver:v0.10.0-b7
+  image: docker.io/greenopsinc/goserver:v0.10.0-b8
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
   nodePort: 30007
   port: 8080
-#   sso:
-#     secretName: greenops-sso
-#     clientId: ""
-#     clientSecret: ""
 
 controller:
   name: greenops-controller
-  image: docker.io/greenopsinc/controller:v0.10.0-b7
+  image: docker.io/greenopsinc/controller:v0.10.0-b8
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
@@ -38,7 +41,7 @@ controller:
 
 pipelineRepoServer:
   name: greenops-reposerver
-  image: docker.io/greenopsinc/pipelinereposerver:v0.10.0-b7
+  image: docker.io/greenopsinc/pipelinereposerver:v0.10.0-b8
   nodePort: 32522
   port: 8080
   replicas: 1
@@ -47,7 +50,7 @@ pipelineRepoServer:
 
 commandDelegator:
   name: greenops-commanddelegator
-  image: docker.io/greenopsinc/commanddelegator:v0.10.0-b7
+  image: docker.io/greenopsinc/commanddelegator:v0.10.0-b8
   nodePort: 32533
   port: 8080
   replicas: 1
@@ -55,31 +58,31 @@ commandDelegator:
   restartPolicy: Always
 
 metricsServer:
-  name: greenops-metrics-server
-  image: docker.io/greenopsinc/greenops-metrics-server:v0.10.0-b7
+  name: greenops-metricsserver
+  image: docker.io/greenopsinc/greenops-metrics-server:v0.10.0-b8
   nodePort: 32544
   port: 2112
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
 
-redis:
-  name: redisserver
-  image: redis
-  port: 6379
-  replicas: 1
-  imagePullPolicy: IfNotPresent
-  restartPolicy: Always
-  volume:
-    name: redis-storage
-    persistentVolume:
-      name: redis-pv
-      labels:
-        topology.kubernetes.io/region: ""
-        topology.kubernetes.io/zone: ""
-        type: ""
-      gcePersistentDisk:
-        pdName: ""
-        fsType: ""
-    persistentVolumeClaim:
-      name: redis.pvc
+# redis:
+#   name: redisserver
+#   image: redis
+#   port: 6379
+#   replicas: 1
+#   imagePullPolicy: IfNotPresent
+#   restartPolicy: Always
+#   volume:
+#     name: redis-storage
+#     persistentVolume:
+#       name: redis-pv
+#       labels:
+#         topology.kubernetes.io/region: ""
+#         topology.kubernetes.io/zone: ""
+#         type: ""
+#       gcePersistentDisk:
+#         pdName: ""
+#         fsType: ""
+#     persistentVolumeClaim:
+#       name: redis.pvc
