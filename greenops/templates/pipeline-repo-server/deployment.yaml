@@ -21,7 +21,7 @@ spec:
           - image: {{ .Values.pipelineRepoServer.image }}
             env:
               - name: ATLAS_DB_ADDRESS
-                value: {{ .Values.common.dbAddress }}
+                value: {{ .Values.common.db.address }}
               {{ if .Values.common.db.password.enabled }}
               - name: ATLAS_DB_PASSWORD
                 valueFrom:

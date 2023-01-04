@@ -24,7 +24,7 @@ spec:
             - name: HEALTH_PROBE_BIND_ADDRESS_ENV_NAME
               value: {{ .Values.controller.metrics.healthProbeBindAddress }}
             - name: ATLAS_DB_ADDRESS
-              value: {{ .Values.common.dbAddress }}
+              value: {{ .Values.common.db.address }}
             {{ if .Values.common.db.password.enabled }}
             - name: ATLAS_DB_PASSWORD
               valueFrom:

@@ -1,8 +1,20 @@
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.server.name }}-cluster
+rules:
+  - apiGroups: ["", "pipeline.greenopsinc.io"]
+    resources:
+      - namespaces
+      - pipelines
+      - pipelines/status
+    verbs: [ "*" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ .Values.server.name }}-gitcred
-  namespace: {{ .Values.common.namespace }}
+  namespace: gitcred
 rules:
   - apiGroups: [""]
     resources:
@@ -28,7 +40,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{ .Values.server.name }}-gitcred
-  namespace: {{ .Values.common.namespace }}
+  namespace: gitcred
 subjects:
   - kind: ServiceAccount
     name: {{ .Values.server.name }}
@@ -50,4 +62,18 @@ subjects:
 roleRef:
   kind: Role
   name: {{ .Values.server.name }}
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.server.name }}-cluster
+  namespace: {{ .Values.common.namespace }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.server.name }}
+    namespace: {{ .Values.common.namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.server.name }}-cluster
   apiGroup: rbac.authorization.k8s.io

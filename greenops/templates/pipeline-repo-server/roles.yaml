@@ -2,7 +2,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ .Values.pipelineRepoServer.name }}-gitcred
-  namespace: {{ .Values.common.namespace }}
+  namespace: gitcred
 rules:
   - apiGroups: [""]
     resources:
@@ -27,7 +27,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{ .Values.pipelineRepoServer.name }}-gitcred
-  namespace: {{ .Values.common.namespace }}
+  namespace: gitcred
 subjects:
   - kind: ServiceAccount
     name: {{ .Values.pipelineRepoServer.name }}

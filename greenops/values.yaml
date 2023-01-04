@@ -22,7 +22,7 @@ common:
 
 server:
   name: greenops-server
-  image: docker.io/greenopsinc/goserver:v0.10.0-b8
+  image: docker.io/greenopsinc/goserver:v0.10.0
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
@@ -31,7 +31,7 @@ server:
 
 controller:
   name: greenops-controller
-  image: docker.io/greenopsinc/controller:v0.10.0-b8
+  image: docker.io/greenopsinc/controller:v0.10.0
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
@@ -41,7 +41,7 @@ controller:
 
 pipelineRepoServer:
   name: greenops-reposerver
-  image: docker.io/greenopsinc/pipelinereposerver:v0.10.0-b8
+  image: docker.io/greenopsinc/pipelinereposerver:v0.10.0
   nodePort: 32522
   port: 8080
   replicas: 1
@@ -50,7 +50,7 @@ pipelineRepoServer:
 
 commandDelegator:
   name: greenops-commanddelegator
-  image: docker.io/greenopsinc/commanddelegator:v0.10.0-b8
+  image: docker.io/greenopsinc/commanddelegator:v0.10.0
   nodePort: 32533
   port: 8080
   replicas: 1
@@ -59,30 +59,30 @@ commandDelegator:
 
 metricsServer:
   name: greenops-metricsserver
-  image: docker.io/greenopsinc/greenops-metrics-server:v0.10.0-b8
+  image: docker.io/greenopsinc/greenops-metrics-server:v0.10.0
   nodePort: 32544
   port: 2112
   replicas: 1
   imagePullPolicy: IfNotPresent
   restartPolicy: Always
 
-# redis:
-#   name: redisserver
-#   image: redis
-#   port: 6379
-#   replicas: 1
-#   imagePullPolicy: IfNotPresent
-#   restartPolicy: Always
-#   volume:
-#     name: redis-storage
-#     persistentVolume:
-#       name: redis-pv
-#       labels:
-#         topology.kubernetes.io/region: ""
-#         topology.kubernetes.io/zone: ""
-#         type: ""
-#       gcePersistentDisk:
-#         pdName: ""
-#         fsType: ""
-#     persistentVolumeClaim:
-#       name: redis.pvc
+redis:
+  name: redisserver
+  image: redis
+  port: 6379
+  replicas: 1
+  imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+  volume:
+    name: redis-storage
+    persistentVolume:
+      name: redis-pv
+      labels:
+        topology.kubernetes.io/region: ""
+        topology.kubernetes.io/zone: ""
+        type: ""
+      gcePersistentDisk:
+        pdName: ""
+        fsType: ""
+    persistentVolumeClaim:
+      name: redis.pvc

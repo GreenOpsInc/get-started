@@ -30,7 +30,7 @@ spec:
                   key: {{ .Values.common.license.key }}
                   optional: false
             - name: ATLAS_DB_ADDRESS
-              value: {{ .Values.common.dbAddress }}
+              value: {{ .Values.common.db.address }}
             {{ if .Values.common.db.password.enabled }}
             - name: ATLAS_DB_PASSWORD
               valueFrom:
