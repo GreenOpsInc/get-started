@@ -3,9 +3,12 @@ kind: ClusterRole
 metadata:
   name: {{ .Values.server.name }}-cluster
 rules:
-  - apiGroups: ["", "pipeline.greenopsinc.io"]
+  - apiGroups: [""]
     resources:
       - namespaces
+    verbs: [ "create" ]
+  - apiGroups: ["pipeline.greenopsinc.io"]
+    resources:
       - pipelines
       - pipelines/status
     verbs: [ "*" ]
