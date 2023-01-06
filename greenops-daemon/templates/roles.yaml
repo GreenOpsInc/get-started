@@ -42,9 +42,7 @@ metadata:
   name: {{ .Values.name }}-argocd-management-clusterscope
 rules:
   - verbs:
-      - create
-      - update
-      - patch
+      - '*'
     apiGroups:
       - rbac.authorization.k8s.io
       - apiextensions.k8s.io
