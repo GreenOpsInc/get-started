@@ -1700,7 +1700,6 @@ spec:
         - client
         - --access-control-allow-origin
         - <GREENOPS_URL>
-        env: []
         image: docker.io/greenopsinc/argo-server:3.3.8
         name: argo-server
         env:
