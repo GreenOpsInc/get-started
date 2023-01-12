@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: deploy-guestbook
+spec:
+  entrypoint: entry
+  templates:
+  - name: entry
+    dag:
+      tasks:
+      - name: deploy-to-dev
+        templateRef:
+          name: argocd-step
+          template: argocd-sync-and-wait
+        arguments:
+          parameters:
+          - name: argocd-version
+            value: "{{workflow.parameters.deploy-to-dev-argocd-version}}"
+          - name: application-name
+            value: "{{workflow.parameters.deploy-to-dev-application-name}}"
+          - name: revision
+            value: "{{workflow.parameters.deploy-to-dev-revision}}"
+          - name: flags
+            value: "{{workflow.parameters.deploy-to-dev-flags}}"
+          - name: argocd-server-address
+            value: "{{workflow.parameters.deploy-to-dev-argocd-server-address}}"
+          - name: argocd-credentials-secret
+            value: "{{workflow.parameters.deploy-to-dev-argocd-credentials-secret}}"
+      - name: deploy-to-staging
+        templateRef:
+          name: argocd-step
+          template: argocd-sync-and-wait
+        dependencies: [deploy-to-dev]
+        arguments:
+          parameters:
+          - name: argocd-version
+            value: "{{workflow.parameters.deploy-to-staging-argocd-version}}"
+          - name: application-name
+            value: "{{workflow.parameters.deploy-to-staging-application-name}}"
+          - name: revision
+            value: "{{workflow.parameters.deploy-to-staging-revision}}"
+          - name: flags
+            value: "{{workflow.parameters.deploy-to-staging-flags}}"
+          - name: argocd-server-address
+            value: "{{workflow.parameters.deploy-to-staging-argocd-server-address}}"
+          - name: argocd-credentials-secret
+            value: "{{workflow.parameters.deploy-to-staging-argocd-credentials-secret}}"
