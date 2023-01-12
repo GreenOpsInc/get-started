@@ -18,5 +18,5 @@ argoNamespace: argo
 orgName: org
 image: docker.io/greenopsinc/godaemon:v0.10.0
 replicas: 1
-imagePullPolicy: IfNotPresent
+imagePullPolicy: Always
 restartPolicy: Always

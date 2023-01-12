@@ -24,7 +24,7 @@ server:
   name: greenops-server
   image: docker.io/greenopsinc/goserver:v0.10.0
   replicas: 1
-  imagePullPolicy: IfNotPresent
+  imagePullPolicy: Always
   restartPolicy: Always
   nodePort: 30007
   port: 8080
@@ -33,7 +33,7 @@ controller:
   name: greenops-controller
   image: docker.io/greenopsinc/controller:v0.10.0
   replicas: 1
-  imagePullPolicy: IfNotPresent
+  imagePullPolicy: Always
   restartPolicy: Always
   metrics:
     bindAddress: localhost:8082
@@ -45,7 +45,7 @@ pipelineRepoServer:
   nodePort: 32522
   port: 8080
   replicas: 1
-  imagePullPolicy: IfNotPresent
+  imagePullPolicy: Always
   restartPolicy: Always
 
 commandDelegator:
@@ -54,7 +54,7 @@ commandDelegator:
   nodePort: 32533
   port: 8080
   replicas: 1
-  imagePullPolicy: IfNotPresent
+  imagePullPolicy: Always
   restartPolicy: Always
 
 metricsServer:
@@ -63,7 +63,7 @@ metricsServer:
   nodePort: 32544
   port: 2112
   replicas: 1
-  imagePullPolicy: IfNotPresent
+  imagePullPolicy: Always
   restartPolicy: Always
 
 redis:
