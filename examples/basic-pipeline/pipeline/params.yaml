@@ -1,0 +1,4 @@
+arguments:
+  parameters:
+    - name: message
+      value: "Hello GreenOps!"
