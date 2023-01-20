@@ -6,7 +6,7 @@ greenops:
     clientSecret: FdsqnN7HXp3d9b4V6nhtzcW9jghNDEZYN3bJUFfLEP95QsxGKgd67X4Q7ScR9ztV
 
 config:
-  url: "https://argocd.apps.argoproj.io"
+  url: "https://greenops.io"
   dex.config: |-
     connectors:
       - type: github
