@@ -13,6 +13,9 @@ common:
     enabled: false
     argoCdUrl: ""
     secretName: greenops-sso
+    secret:
+      clientIdKey: client-id
+      clientSecretKey: client-secret
   namespace: greenops
   orgName: org
   imagePullSecret: regcred
