@@ -14,6 +14,8 @@ The areas to fill in this configuration can be found in `greenops-control-plane/
 
 **Providers**: *This flow expects that Helm and Kubernetes providers have already been configured. See the first installation note for more info.*
 
+**Image Access**: *This flow expects the `regcred` secret, or some other artifact access process to already be configured.*
+
 **Ingress**: *This flow expects that ingress is already configured, or configured separately.*
 
 **Namespaces**: *This flow expects that the `greenops`, `gitcred`, `argo`, and `argocd` namespaces already exist. If they don't, run this:*
