@@ -1,4 +1,4 @@
-Installation Notes:
+## Installation Notes:
 
 - **Provider Configuration:** Providers are not configured. The starter Terraform markup for the GreenOps control plane and GreenOps agent use the Helm provider and the Kubernetes provider. The configuration has been left blank for users to fill in.
 
@@ -10,7 +10,7 @@ The areas to fill in this configuration can be found in `greenops-control-plane/
 
 - **Separate Configs for Control Plane & Agent:** The agent configuration requires a developer access token to be able to make a secure remote request to GreenOps. This token has to be fetched from the UI (allowing a token to be fetched remotely would introduce a security risk). Terraform will prompt for the token when installing an agent.
 
-Putting It All Together:
+## Putting It All Together:
 
 **Providers**: *This flow expects that Helm and Kubernetes providers have already been configured. See the first installation note for more info.*
 
