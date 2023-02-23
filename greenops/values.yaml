@@ -11,7 +11,7 @@ common:
     greenopsUrl: ""
   sso:
     enabled: false
-    argoCdUrl: ""
+    providerUrl: ""
     secretName: greenops-sso
     secret:
       clientIdKey: client-id

@@ -55,7 +55,9 @@ spec:
             - name: SSO_REDIRECT_URI
               value: "{{ .Values.common.server.greenopsUrl }}/oauth2/callback"
             - name: SSO_ISSUER_URI
-              value: {{ .Values.common.sso.argoCdUrl }}/api/dex
+              value: {{ .Values.common.server.greenopsUrl }}/api/dex
+            - name: SSO_PROVIDER_URI
+              value: {{ .Values.common.sso.providerUrl }}
             {{ end }}
           image: {{ .Values.server.image }}
           imagePullPolicy: {{ .Values.server.imagePullPolicy }}
