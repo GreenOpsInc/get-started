@@ -1,28 +1,10 @@
 greenops:
   namespace: greenops
-  sso:
-    secretName: greenops-sso
-    clientId: greenops-sso
-    clientSecret: FdsqnN7HXp3d9b4V6nhtzcW9jghNDEZYN3bJUFfLEP95QsxGKgd67X4Q7ScR9ztV
 
 config:
-  url: "https://greenops.io"
+  url: ""
   dex.config: |-
-    connectors:
-      - type: github
-        id: github
-        name: GitHub
-        config:
-          clientID: c637333b51fb821d9109
-          clientSecret: bb4c16e91d2fd26d4e29afae2c6eb0e96d38f112
-          orgs:
-          - name: GreenOpsInc
-    staticClients:
-      - id: greenops-sso
-        name: GreenOps-SSO
-        redirectURIs:
-          - https://localhost:8081/oauth2/callback
-        secretEnv: GREENOPS_SSO_CLIENT_SECRET
+    ...
 
 dex:
   name: dex-server

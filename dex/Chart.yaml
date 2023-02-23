@@ -1,9 +1,8 @@
 apiVersion: v2
-appVersion: v2.4.10
-kubeVersion: ">=1.22.0-0"
+appVersion: "1.0.0"
 description: A Helm chart of the Dex instance for Greenops cluster
 name: greenops-dex
-version: 4.10.7
+version: 1.0.0
 keywords:
   - greenops
   - dex
