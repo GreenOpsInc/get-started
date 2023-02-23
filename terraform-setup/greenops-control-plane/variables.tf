@@ -10,7 +10,7 @@ variable "greenops_installation_name" {
 
 variable "greenops_installation_version" {
   type    = string
-  default = "0.1.0"
+  default = "1.0.0"
 }
 
 variable "greenops_url" {
