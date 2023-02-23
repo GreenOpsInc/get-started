@@ -1,0 +1,63 @@
+greenops:
+  namespace: greenops
+
+config:
+  url: ""
+  dex.config: |-
+    ...
+
+dex:
+  name: dex-server
+  image:
+    repository: ghcr.io/dexidp/dex
+    tag: v2.30.2
+    imagePullPolicy: IfNotPresent
+  initImage:
+    repository: quay.io/argoproj/argocd
+    tag: ""
+    imagePullPolicy: IfNotPresent
+
+  # -- Environment variables to pass to the Dex server
+  env:
+    - name: GREENOPS_SSO_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: greenops-sso
+          key: client-secret
+
+  serviceAccount:
+    # -- Create dex service account
+    create: true
+    # -- Dex service account name
+    name: argocd-dex-server
+    # -- Annotations applied to created service account
+    annotations: {}
+    # -- Automount API credentials for the Service Account
+    automountServiceAccountToken: true
+
+  # -- Additional volumeMounts to the dex main container
+  volumeMounts:
+    - name: static-files
+      mountPath: /shared
+
+  # -- Additional volumes to the dex pod
+  volumes:
+    - name: static-files
+      emptyDir: {}
+
+  # -- Container port for HTTP access
+  containerPortHttp: 5556
+  # -- Service port for HTTP access
+  servicePortHttp: 5556
+  # -- Service port name for HTTP access
+  servicePortHttpName: http
+  # -- Container port for gRPC access
+  containerPortGrpc: 5557
+  # -- Service port for gRPC access
+  servicePortGrpc: 5557
+  # -- Service port name for gRPC access
+  servicePortGrpcName: grpc
+  # -- Container port for metrics access
+  containerPortMetrics: 5558
+  # -- Service port for metrics access
+  servicePortMetrics: 5558

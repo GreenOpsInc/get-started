@@ -1,0 +1,8 @@
+apiVersion: v2
+appVersion: "1.0.0"
+description: A Helm chart of the Dex instance for Greenops cluster
+name: greenops-dex
+version: 1.0.0
+keywords:
+  - greenops
+  - dex

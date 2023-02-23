@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "dex.fullname" . }}
+  labels:
+    {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" .Values.dex.name) | nindent 4 }}
+    app.kubernetes.io/version: {{ .Values.dex.image.tag | trunc 63 | quote }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "dex.selectorLabels" (dict "context" . "name" .Values.dex.name) | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" .Values.dex.name) | nindent 8 }}
+        app.kubernetes.io/version: {{ .Values.dex.image.tag | trunc 63 | quote }}
+    spec:
+      initContainers:
+      - name: copyutil
+        image: {{ .Values.dex.initImage.repository }}:{{ default (include "dex.defaultTag" .) .Values.dex.initImage.tag }}
+        imagePullPolicy: {{ .Values.dex.initImage.imagePullPolicy }}
+        command:
+        - cp
+        - -n
+        - /usr/local/bin/argocd
+        - /shared/argocd-dex
+        volumeMounts:
+        - mountPath: /shared
+          name: static-files
+      containers:
+      - name: {{ .Values.dex.name }}
+        image: {{ .Values.dex.image.repository }}:{{ .Values.dex.image.tag }}
+        imagePullPolicy: {{ .Values.dex.image.imagePullPolicy }}
+        command:
+        - /shared/argocd-dex
+        - rundex
+        {{- if .Values.dex.env }}
+        env:
+{{- toYaml .Values.dex.env | nindent 8 }}
+        {{- end }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.dex.containerPortHttp }}
+          protocol: TCP
+        - name: grpc
+          containerPort: {{ .Values.dex.containerPortGrpc }}
+          protocol: TCP
+        - name: metrics
+          containerPort: {{ .Values.dex.containerPortMetrics }}
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /tmp
+          name: tmp-dir
+        {{- if .Values.dex.volumeMounts }}
+        {{- toYaml .Values.dex.volumeMounts | nindent 8 }}
+        {{- end }}
+      serviceAccountName: {{ template "dex.serviceAccountName" . }}
+      volumes:
+      - emptyDir: {}
+        name: tmp-dir
+      {{- if .Values.dex.volumes }}
+      {{- toYaml .Values.dex.volumes | nindent 6 }}
+      {{- end }}
