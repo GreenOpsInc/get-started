@@ -11,5 +11,5 @@ roleRef:
   name: {{ .Values.dex.name }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "dex.serviceAccountName" . }}
+  name: {{ .Values.dex.name }}
   namespace: {{ .Values.common.namespace }}
