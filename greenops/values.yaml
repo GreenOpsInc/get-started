@@ -8,10 +8,10 @@ common:
     # Currently only GCP is supported for automated PersistentVolume creation. Other cloud providers have to be done manually.
     usePersistentVolume: false
   server:
-    greenopsUrl: ""
+    greenopsUrl: "https://org.greenops.io"
   sso:
-    enabled: false
-    providerUrl: ""
+    enabled: true
+    providerUrl: "http://greenops-dex-server.greenops.svc.cluster.local:5556"
     config:
       url: ""
       dex.config: |-
@@ -85,7 +85,7 @@ dex:
 
 server:
   name: greenops-server
-  image: docker.io/greenopsinc/goserver:v1.0.0
+  image: docker.io/1mihirpandya/goserver:v1.0.0-authrc
   replicas: 1
   imagePullPolicy: Always
   restartPolicy: Always
