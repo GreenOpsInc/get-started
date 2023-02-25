@@ -16,4 +16,4 @@ spec:
     port: {{ .Values.dex.servicePortGrpc }}
     targetPort: grpc
   selector:
-    service: {{ .Values.dex.name }}
+    {{- include "dex.selectorLabels" (dict "context" . "name" .Values.dex.name) | nindent 4 }}

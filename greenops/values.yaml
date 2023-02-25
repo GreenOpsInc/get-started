@@ -13,9 +13,30 @@ common:
     enabled: true
     providerUrl: "http://greenops-dex-server.greenops.svc.cluster.local:5556"
     config:
-      url: ""
+      url: "https://org.greenops.io"
       dex.config: |-
-        ...
+        connectors:
+          - type: oidc
+            id: auth0
+            name: auth0
+            config:
+              issuer: https://dev-eg3psga5.us.auth0.com/
+              clientID: En0GVjBZsjEsctvWhk4EDfYM0CQbDlpb
+              clientSecret: YmlRyTjaISNswPfyF2gGWfyISXCJtkrkieqwtQd4ikOfYyQWaNTnz27_JrDCzVNI
+              basicAuthUnsupported: false
+              insecureSkipEmailVerified: false
+              insecureEnableGroups: false
+              getUserInfo: false
+              scopes:
+              - groups
+              - email
+              - profile
+        staticClients:
+          - id: greenops-sso
+            name: GreenOps-SSO
+            redirectURIs:
+              - https://org.greenops.io/oauth2/callback
+            secretEnv: GREENOPS_SSO_CLIENT_SECRET
     secretName: greenops-sso
     secret:
       clientIdKey: client-id
@@ -85,7 +106,7 @@ dex:
 
 server:
   name: greenops-server
-  image: docker.io/1mihirpandya/goserver:v1.0.0-authrc
+  image: docker.io/greenopsinc/goserver:v1.0.0
   replicas: 1
   imagePullPolicy: Always
   restartPolicy: Always

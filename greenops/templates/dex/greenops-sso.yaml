@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: greenops-sso
+  namespace: {{ .Values.common.namespace }}
+type: Opaque
+data:
+  # retrieve the secret data using lookup function and when not exists, return an empty dictionary / map as result
+  {{- $secretObj := (lookup "v1" "Secret" .Values.common.namespace "greenops-sso") | default dict }}
+  {{- $secretData := (get $secretObj "data") | default dict }}
+  # set $jwtSecret to existing secret data or generate a random one when not exists
+  {{- $clientId := (get $secretData "client-id") | default ("greenops-sso" | b64enc) }}
+  {{- $clientSecret := (get $secretData "client-secret") | default (randAlphaNum 32 | b64enc) }}
+  client-id: {{ $clientId | quote }}
+  client-secret: {{ $clientSecret | quote }}

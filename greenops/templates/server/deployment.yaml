@@ -57,7 +57,7 @@ spec:
             - name: SSO_ISSUER_URI
               value: {{ .Values.common.server.greenopsUrl }}/api/dex
             - name: SSO_PROVIDER_URI
-              value: {{ .Values.common.sso.providerUrl }}
+              value: http://{{ .Values.dex.name }}:{{ .Values.dex.servicePortHttp }}
             {{ end }}
           image: {{ .Values.server.image }}
           imagePullPolicy: {{ .Values.server.imagePullPolicy }}
