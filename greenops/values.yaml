@@ -28,7 +28,7 @@ common:
     key: license
 
 dex:
-  name: dex-server
+  name: greenops-dex-server
   image:
     repository: ghcr.io/dexidp/dex
     tag: v2.30.2

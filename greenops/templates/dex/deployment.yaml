@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "dex.fullname" . }}
+  name: {{ .Values.dex.name }}
   namespace: {{ .Values.common.namespace }}
   labels:
     {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" .Values.dex.name) | nindent 4 }}
