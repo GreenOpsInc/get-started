@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{- include "dex.selectorLabels" (dict "context" . "name" .Values.dex.name) | nindent 6 }}
+      {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.dex.name) | nindent 6 }}
   template:
     metadata:
       labels:

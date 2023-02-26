@@ -41,16 +41,26 @@ Create the name of the dex service account to use
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "dex.chart" -}}
+{{- define "greenops.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
-Common labels
+Common Dex labels
 */}}
 {{- define "dex.labels" -}}
-helm.sh/chart: {{ include "dex.chart" .context }}
-{{ include "dex.selectorLabels" (dict "context" .context "component" .component "name" .name) }}
+helm.sh/chart: {{ include "greenops.chart" .context }}
+{{ include "greenops.selectorLabels" (dict "context" .context "component" .component "name" .name) }}
+app.kubernetes.io/managed-by: {{ .context.Release.Service }}
+app.kubernetes.io/part-of: argocd
+{{- end }}
+
+{{/*
+Common GreenOps labels
+*/}}
+{{- define "greenops.labels" -}}
+helm.sh/chart: {{ include "greenops.chart" .context }}
+{{ include "greenops.selectorLabels" (dict "context" .context "component" .component "name" .name) }}
 app.kubernetes.io/managed-by: {{ .context.Release.Service }}
 app.kubernetes.io/part-of: greenops
 {{- end }}
@@ -58,9 +68,9 @@ app.kubernetes.io/part-of: greenops
 {{/*
 Selector labels
 */}}
-{{- define "dex.selectorLabels" -}}
+{{- define "greenops.selectorLabels" -}}
 {{- if .name -}}
-app.kubernetes.io/name: {{ include "dex.name" .context }}-{{ .name }}
+app.kubernetes.io/name: {{ .name }}
 {{ end -}}
 app.kubernetes.io/instance: {{ .context.Release.Name }}
 {{- if .component }}

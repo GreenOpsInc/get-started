@@ -3,6 +3,8 @@ kind: Secret
 metadata:
   name: greenops-sso
   namespace: {{ .Values.common.namespace }}
+  labels:
+    {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" "greenops-sso") | nindent 4 }}
 type: Opaque
 data:
   # retrieve the secret data using lookup function and when not exists, return an empty dictionary / map as result

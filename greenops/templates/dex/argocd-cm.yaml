@@ -4,7 +4,7 @@ metadata:
   name: argocd-cm
   namespace: {{ .Values.common.namespace }}
   labels:
-    {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" "cm") | nindent 4 }}
+    {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" "argocd-cm") | nindent 4 }}
 data:
 {{- range $key, $value := .Values.common.sso.config }}
   {{ $key }}: {{ $value | quote }}
