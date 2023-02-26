@@ -21,5 +21,4 @@
 .idea/
 *.tmproj
 .vscode/
-templates/common/ssosecret.yaml
 templates/metrics-server
