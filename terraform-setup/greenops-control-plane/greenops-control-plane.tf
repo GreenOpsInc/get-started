@@ -1,12 +1,12 @@
 provider "kubernetes" {
-  config_path    = "~/.kube/config"
-  config_context = "gke_greenops-dev_us-central1-c_cluster-2"
+  # Configure K8S access
+  ...
 }
 
 provider "helm" {
   kubernetes {
-    config_path    = "~/.kube/config"
-    config_context = "gke_greenops-dev_us-central1-c_cluster-2"
+    # Configure K8S access
+    ...
   }
 }
 
@@ -29,6 +29,10 @@ resource "helm_release" "greenops_control_plane" {
 
   chart   = "greenops"
   version = var.greenops_installation_version
+
+  #values = [
+  #  "${file("values.yaml")}"
+  #]
 
   set {
     name  = "common.server.greenopsUrl"

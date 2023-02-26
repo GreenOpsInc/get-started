@@ -10,12 +10,10 @@ variable "greenops_agent_installation_version" {
 
 variable "greenops_url" {
   type    = string
-  default = "hz.greenops.io"
 }
 
 variable "argo_workflows_url" {
   type    = string
-  default = "argoworkflows2.greenops.io"
 }
 
 variable "greenops_api_key" {
@@ -25,5 +23,4 @@ variable "greenops_api_key" {
 
 variable "cluster_name" {
   type = string
-  default = "test-agent"
 }
