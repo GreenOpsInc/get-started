@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: {{ .Values.pipelineRepoServer.name }}
+    {{- include "greenops.labels" (dict "context" . "component" .Values.pipelineRepoServer.name "name" .Values.pipelineRepoServer.name) | nindent 4 }}
   name: {{ .Values.pipelineRepoServer.name }}
   namespace: {{ .Values.common.namespace }}
 spec:
   replicas: {{ .Values.pipelineRepoServer.replicas }}
   selector:
     matchLabels:
-      service: {{ .Values.pipelineRepoServer.name }}
+      {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.pipelineRepoServer.name) | nindent 6 }}
   strategy: {}
   template:
     metadata:
       labels:
-        service: {{ .Values.pipelineRepoServer.name }}
+        {{- include "greenops.labels" (dict "context" . "component" .Values.pipelineRepoServer.name "name" .Values.pipelineRepoServer.name) | nindent 8 }}
     spec:
       serviceAccountName: {{ .Values.pipelineRepoServer.name }}
       containers:

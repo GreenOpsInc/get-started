@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: {{ .Values.redis.name }}
+    {{- include "greenops.labels" (dict "context" . "component" .Values.redis.name "name" .Values.redis.name) | nindent 4 }}
   name: {{ .Values.redis.name }}
   namespace: {{ .Values.common.namespace }}
 spec:
   replicas: {{ .Values.redis.replicas }}
   selector:
     matchLabels:
-      service: {{ .Values.redis.name }}
+      {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.redis.name) | nindent 6 }}
   strategy: {}
   template:
     metadata:
       labels:
-        service: {{ .Values.redis.name }}
+        {{- include "greenops.labels" (dict "context" . "component" .Values.redis.name "name" .Values.redis.name) | nindent 8 }}
     spec:
       containers:
         - args:

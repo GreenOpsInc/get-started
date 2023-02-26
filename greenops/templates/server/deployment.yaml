@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: {{ .Values.server.name }}
+    {{- include "greenops.labels" (dict "context" . "component" .Values.server.name "name" .Values.server.name) | nindent 4 }}
   name: {{ .Values.server.name }}
   namespace: {{ .Values.common.namespace }}
 spec:
   replicas: {{ .Values.server.replicas }}
   selector:
     matchLabels:
-      service: {{ .Values.server.name }}
+      {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.server.name) | nindent 6 }}
   strategy: {}
   template:
     metadata:
       labels:
-        service: {{ .Values.server.name }}
+        {{- include "greenops.labels" (dict "context" . "component" .Values.server.name "name" .Values.server.name) | nindent 8 }}
     spec:
       serviceAccountName: {{ .Values.server.name }}
       containers:
@@ -57,7 +57,7 @@ spec:
             - name: SSO_ISSUER_URI
               value: {{ .Values.common.server.greenopsUrl }}/api/dex
             - name: SSO_PROVIDER_URI
-              value: {{ .Values.common.sso.providerUrl }}
+              value: http://{{ .Values.dex.name }}:{{ .Values.dex.servicePortHttp }}
             {{ end }}
           image: {{ .Values.server.image }}
           imagePullPolicy: {{ .Values.server.imagePullPolicy }}

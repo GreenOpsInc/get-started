@@ -1,7 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "dex.fullname" . }}
+  name: {{ .Values.dex.name }}
+  namespace: {{ .Values.common.namespace }}
   labels:
     {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" .Values.dex.name) | nindent 4 }}
 spec:
@@ -15,4 +16,4 @@ spec:
     port: {{ .Values.dex.servicePortGrpc }}
     targetPort: grpc
   selector:
-    {{- include "dex.selectorLabels" (dict "context" . "name" .Values.dex.name) | nindent 4 }}
+    {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.dex.name) | nindent 4 }}

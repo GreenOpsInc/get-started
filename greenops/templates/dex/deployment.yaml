@@ -1,14 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "dex.fullname" . }}
+  name: {{ .Values.dex.name }}
+  namespace: {{ .Values.common.namespace }}
   labels:
     {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" .Values.dex.name) | nindent 4 }}
     app.kubernetes.io/version: {{ .Values.dex.image.tag | trunc 63 | quote }}
 spec:
   selector:
     matchLabels:
-      {{- include "dex.selectorLabels" (dict "context" . "name" .Values.dex.name) | nindent 6 }}
+      {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.dex.name) | nindent 6 }}
   template:
     metadata:
       labels:
@@ -54,7 +55,7 @@ spec:
         {{- if .Values.dex.volumeMounts }}
         {{- toYaml .Values.dex.volumeMounts | nindent 8 }}
         {{- end }}
-      serviceAccountName: {{ template "dex.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.dex.name }}
       volumes:
       - emptyDir: {}
         name: tmp-dir

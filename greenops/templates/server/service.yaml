@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    service: {{ .Values.server.name }}
+    {{- include "greenops.labels" (dict "context" . "component" .Values.server.name "name" .Values.server.name) | nindent 4 }}
   name: {{ .Values.server.name }}
   namespace: {{ .Values.common.namespace }}
 spec:
@@ -13,4 +13,4 @@ spec:
       targetPort: {{ .Values.server.port }}
       nodePort: {{ .Values.server.nodePort }}
   selector:
-    service: {{ .Values.server.name }}
+    {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.server.name) | nindent 4 }}

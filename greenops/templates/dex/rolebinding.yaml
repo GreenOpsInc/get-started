@@ -1,14 +1,15 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ template "dex.fullname" . }}
+  name: {{ .Values.dex.name }}
+  namespace: {{ .Values.common.namespace }}
   labels:
     {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" .Values.dex.name) | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: {{ template "dex.fullname" . }}
+  name: {{ .Values.dex.name }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "dex.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  name: {{ .Values.dex.name }}
+  namespace: {{ .Values.common.namespace }}

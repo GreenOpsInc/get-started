@@ -1,7 +1,8 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: {{ template "dex.fullname" . }}
+  name: {{ .Values.dex.name }}
+  namespace: {{ .Values.common.namespace }}
   labels:
     {{- include "dex.labels" (dict "context" . "component" .Values.dex.name "name" .Values.dex.name) | nindent 4 }}
 rules:
