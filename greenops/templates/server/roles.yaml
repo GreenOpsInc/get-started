@@ -36,6 +36,7 @@ rules:
       - namespaces
       - configmaps
       - deployments
+      - pods
       - services
       - pipelines
       - pipelines/status
