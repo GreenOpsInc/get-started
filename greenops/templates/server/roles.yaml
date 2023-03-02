@@ -30,11 +30,13 @@ metadata:
   name: {{ .Values.server.name }}
   namespace: {{ .Values.common.namespace }}
 rules:
-  - apiGroups: ["", "core", "pipeline.greenopsinc.io"]
+  - apiGroups: ["", "apps", "core", "pipeline.greenopsinc.io"]
     resources:
       - secrets
       - namespaces
       - configmaps
+      - deployments
+      - services
       - pipelines
       - pipelines/status
     verbs: [ "*" ]

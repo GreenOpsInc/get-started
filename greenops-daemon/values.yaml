@@ -9,6 +9,9 @@ common:
   greenopsServer:
     url: "greenops-server.greenops.svc.cluster.local:8080"
   argo:
+    cd:
+      externalUrl: ""
+      internalUrl: ""
     workflows:
       url: ""
 
@@ -16,7 +19,7 @@ name: greenops-daemon
 namespace: greenops
 argoNamespace: argo
 orgName: org
-image: docker.io/greenopsinc/godaemon:v1.0.0
+image: docker.io/greenopsinc/godaemon:v1.0.1-rc
 replicas: 1
 imagePullPolicy: Always
 restartPolicy: Always
