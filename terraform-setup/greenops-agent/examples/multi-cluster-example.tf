@@ -47,7 +47,7 @@ module "greenops-agent-cluster-1" {
     kubernetes = kubernetes.cluster1
     helm = helm.cluster1
   }
-  cluster_name = "cluster-1-exampl"
+  cluster_name = "cluster-1-example"
   greenops_url = var.greenops_url
   argo_workflows_url = "argoworkflows-env1.domain.com"
   greenops_api_key = var.greenops_api_key
@@ -62,7 +62,7 @@ module "greenops-agent-cluster-2" {
     kubernetes = kubernetes.cluster2
     helm = helm.cluster2
   }
-  cluster_name = "cluster-2-exampl"
+  cluster_name = "cluster-2-example"
   greenops_url = var.greenops_url
   argo_workflows_url = "argoworkflows-env2.domain.com"
   greenops_api_key = var.greenops_api_key
