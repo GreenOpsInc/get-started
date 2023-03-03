@@ -1,0 +1,44 @@
+# This is an example using NGINX. It can be easily adapted to any other ingress or load balancer.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: greenops-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: ...
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: https
+spec:
+  defaultBackend:
+    service:
+      name: greenops-server
+      port:
+        number: 8080
+  tls:
+    - hosts:
+        - <GREENOPS_URL>
+      secretName: greenops-tls
+  rules:
+  - host: <GREENOPS_URL>
+    http:
+      paths:
+      - path: /requests
+        pathType: Prefix
+        backend:
+          service:
+            name: greenops-commanddelegator
+            port:
+              number: 8080
+      - path: /notifications
+        pathType: Prefix
+        backend:
+          service:
+            name: greenops-commanddelegator
+            port:
+              number: 8080
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: greenops-server
+            port:
+              number: 8080
