@@ -20,7 +20,7 @@ The areas to fill in this configuration can be found in `greenops-control-plane/
 
 **Namespaces**: *This flow expects that the `greenops`, `gitcred`, `argo`, and `argocd` namespaces already exist. If they don't, run this:*
 
-**Managing Many Agents**: *If you want to manage N agents, take a look at [this example file](../examples/multi-cluster-example.tf) that manages 2 GreenOps agents.*
+**Managing Many Agents**: *If you want to manage N agents, take a look at [this example file](greenops-agent/examples/multi-cluster-example.tf) that manages 2 GreenOps agents.*
 ```
 kubectl create ns greenops
 kubectl create ns gitcred
