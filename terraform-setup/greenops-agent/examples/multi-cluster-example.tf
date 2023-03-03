@@ -14,15 +14,15 @@ provider "helm" {
 
 provider "kubernetes" {
   alias          = "cluster2"
-  config_path    = "~/.kube/config"
-  config_context = "gke_greenops-dev_us-central1-c_cluster-2"
+  # Configure K8S access
+  ...
 }
 
 provider "helm" {
   alias = "cluster2"
   kubernetes {
-    config_path    = "~/.kube/config"
-    config_context = "gke_greenops-dev_us-central1-c_cluster-2"
+    # Configure K8S access
+    ...
   }
 }
 
