@@ -21,4 +21,5 @@ module "greenops-agent" {
   greenops_url = var.greenops_url
   argo_workflows_url = var.argo_workflows_url
   greenops_api_key = var.greenops_api_key
+  rotate_token = var.rotate_token
 }
