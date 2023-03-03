@@ -1,14 +1,14 @@
 provider "kubernetes" {
   alias          = "cluster1"
-  config_path    = "~/.kube/config"
-  config_context = "minikube"
+  # Configure K8S access
+  ...
 }
 
 provider "helm" {
   alias = "cluster1"
   kubernetes {
-    config_path    = "~/.kube/config"
-    config_context = "minikube"
+    # Configure K8S access
+    ...
   }
 }
 
