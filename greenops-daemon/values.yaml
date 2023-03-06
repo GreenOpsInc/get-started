@@ -10,7 +10,6 @@ common:
     url: "greenops-server.greenops.svc.cluster.local:8080"
   argo:
     cd:
-      externalUrl: ""
       internalUrl: ""
     workflows:
       url: ""
