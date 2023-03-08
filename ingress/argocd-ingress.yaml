@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: <YOUR_ISSUER>
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: https
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  name: <CLUSTER_NAME>-ingress
+  namespace: greenops
+spec:
+  defaultBackend:
+    service:
+      name: <CLUSTER_NAME>
+      port:
+        number: 5000
+  rules:
+  - host: <HOST_URL>
+    http:
+      paths:
+      - backend:
+          service:
+            name: <CLUSTER_NAME>
+            port:
+              number: 5000
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - <HOST_URL>
+    secretName: <CLUSTER_NAME>-tls
