@@ -9,6 +9,7 @@ common:
     usePersistentVolume: false
   server:
     greenopsUrl: ""
+    tunnelingPort: ""
   sso:
     enabled: false
     config:

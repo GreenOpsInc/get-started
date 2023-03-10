@@ -39,6 +39,8 @@ spec:
                   key: {{ .Values.common.db.password.key }}
                   optional: false
             {{ end }}
+            - name: JUMP_SERVER_SSH_PORT
+              value: {{ .Values.common.server.tunnelingPort }}
             {{ if .Values.common.sso.enabled }}
             - name: SSO_CLIENT_ID
               valueFrom:
