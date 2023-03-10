@@ -1,6 +1,10 @@
 common:
+  kubernetes:
+    generateRoles: true
+    generateServiceAccount: true
   db:
     address: redisserver.greenops.svc.cluster.local:6379
+    deployRedis: true
     password:
       enabled: false
       secretName: ""
@@ -21,7 +25,9 @@ common:
       clientSecretKey: client-secret
   namespace: greenops
   orgName: org
-  imagePullSecret: regcred
+  imageCredentials:
+    enabled: true
+    imagePullSecret: regcred
   license:
     secretName: greenops-license
     key: license
@@ -32,7 +38,6 @@ server:
   replicas: 1
   imagePullPolicy: Always
   restartPolicy: Always
-  nodePort: 30007
   port: 8080
 
 controller:
@@ -48,7 +53,6 @@ controller:
 pipelineRepoServer:
   name: greenops-reposerver
   image: docker.io/greenopsinc/pipelinereposerver:v1.0.0
-  nodePort: 32522
   port: 8080
   replicas: 1
   imagePullPolicy: Always
@@ -57,7 +61,6 @@ pipelineRepoServer:
 commandDelegator:
   name: greenops-commanddelegator
   image: docker.io/greenopsinc/commanddelegator:v1.0.0
-  nodePort: 32533
   port: 8080
   replicas: 1
   imagePullPolicy: Always
@@ -66,7 +69,6 @@ commandDelegator:
 metricsServer:
   name: greenops-metricsserver
   image: docker.io/greenopsinc/greenops-metrics-server:v0.10.0
-  nodePort: 32544
   port: 2112
   replicas: 1
   imagePullPolicy: Always

@@ -1,3 +1,4 @@
+{{ if .Values.common.kubernetes.generateRoles }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -8,10 +9,8 @@ rules:
       - '*'
     apiGroups:
       - ''
-      - rbac.authorization.k8s.io
     resources:
       - secrets
-      - serviceaccounts
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -136,3 +135,4 @@ roleRef:
   kind: Role
   name: {{ .Values.name }}
   apiGroup: rbac.authorization.k8s.io
+{{ end }}

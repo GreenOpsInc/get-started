@@ -37,6 +37,8 @@ spec:
           ports:
             - containerPort: {{ .Values.commandDelegator.port }}
           resources: {}
+      {{ if .Values.common.imageCredentials.enabled }}
       imagePullSecrets:
-        - name: {{ .Values.common.imagePullSecret }}
+        - name: {{ .Values.common.imageCredentials.imagePullSecret }}
+      {{ end }}
       restartPolicy: {{ .Values.commandDelegator.restartPolicy}}

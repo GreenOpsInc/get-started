@@ -39,6 +39,8 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           name: {{ .Values.name }}
           resources: {}
+      {{ if .Values.common.imageCredentials.enabled }}
       imagePullSecrets:
-        - name: {{ .Values.common.imagePullSecret }}
+        - name: {{ .Values.common.imageCredentials.imagePullSecret }}
+      {{ end }}
       restartPolicy: {{ .Values.restartPolicy}}

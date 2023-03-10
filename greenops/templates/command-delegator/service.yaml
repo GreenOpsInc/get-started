@@ -6,11 +6,9 @@ metadata:
   name: {{ .Values.commandDelegator.name }}
   namespace: {{ .Values.common.namespace }}
 spec:
-  type: NodePort
   ports:
     - name: {{ quote .Values.commandDelegator.port }}
       port: {{ .Values.commandDelegator.port }}
       targetPort: {{ .Values.commandDelegator.port }}
-      nodePort: {{ .Values.commandDelegator.nodePort }}
   selector:
     {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.commandDelegator.name) | nindent 4 }}

@@ -1,3 +1,4 @@
+{{ if .Values.common.kubernetes.generateRoles }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -15,10 +16,13 @@ metadata:
   name: {{ .Values.pipelineRepoServer.name }}
   namespace: {{ .Values.common.namespace }}
 rules:
+  - apiGroups: ["core"]
+    resources:
+      - namespaces
+    verbs: [ "get" ]
   - apiGroups: ["", "core", "pipeline.greenopsinc.io"]
     resources:
       - secrets
-      - namespaces
       - configmaps
       - pipelines
     verbs: [ "*" ]
@@ -50,3 +54,4 @@ roleRef:
   kind: Role
   name: {{ .Values.pipelineRepoServer.name }}
   apiGroup: rbac.authorization.k8s.io
+{{ end }}

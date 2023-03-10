@@ -6,11 +6,9 @@ metadata:
   name: {{ .Values.metricsServer.name }}
   namespace: {{ .Values.common.namespace }}
 spec:
-  type: NodePort
   ports:
     - name: {{ quote .Values.metricsServer.port }}
       port: {{ .Values.metricsServer.port }}
       targetPort: {{ .Values.metricsServer.port }}
-      nodePort: {{ .Values.metricsServer.nodePort }}
   selector:
     service: {{ .Values.metricsServer.name }}
