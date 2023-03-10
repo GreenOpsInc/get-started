@@ -18,3 +18,8 @@ This will point all TCP traffic to GreenOps servers, so GreenOps can connect all
 
 ### Security
 All agents and servers are fully configured with secure authorized keys. Unknown hosts attempting to access the TCP port will be denied instantly.
+
+### Port Configuration
+Any port can be configured for TCP. In the example, it is `22: "greenops/jumpserver:22"`. The port on the left (which is what is exposed by Ingress) can be updated to be anything. Remember to set the new port number in the GreenOps Helm chart by setting the variable `common.server.tunnelingPort`. An example is `--set 'common.server.tunnelingPort=\"1234\"'`.
+
+*Note*: The escape character and quotes are important when setting the variable using CLI.
