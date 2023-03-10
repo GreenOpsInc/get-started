@@ -1,6 +1,11 @@
 common:
+  kubernetes:
+    generateRoles: true
+    generateServiceAccount: true
   clusterName: ""
-  imagePullSecret: regcred
+  imageCredentials:
+    enabled: true
+    imagePullSecret: regcred
   greenopsApiKey:
     secretName: greenops-apikey-secret
     key: apikey

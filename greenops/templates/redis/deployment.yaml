@@ -1,3 +1,4 @@
+{{ if .Values.common.db.deployRedis }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,3 +44,4 @@ spec:
         - name: redis-storage
           emptyDir: { }
       {{ end }}
+{{ end }}

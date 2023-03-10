@@ -6,11 +6,9 @@ metadata:
   name: {{ .Values.pipelineRepoServer.name }}
   namespace: {{ .Values.common.namespace }}
 spec:
-  type: NodePort
   ports:
     - name: {{ quote .Values.pipelineRepoServer.port }}
       port: {{ .Values.pipelineRepoServer.port }}
       targetPort: {{ .Values.pipelineRepoServer.port }}
-      nodePort: {{ .Values.pipelineRepoServer.nodePort }}
   selector:
     {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.pipelineRepoServer.name) | nindent 4 }}

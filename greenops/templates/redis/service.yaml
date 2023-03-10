@@ -1,3 +1,4 @@
+{{ if .Values.common.db.deployRedis }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -6,10 +7,10 @@ metadata:
   name: {{ .Values.redis.name }}
   namespace: {{ .Values.common.namespace }}
 spec:
-  type: NodePort
   ports:
     - name: {{ quote .Values.redis.name }}
       port: {{ .Values.redis.port }}
       targetPort: {{ .Values.redis.port }}
   selector:
     {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.redis.name) | nindent 4 }}
+{{ end }}
