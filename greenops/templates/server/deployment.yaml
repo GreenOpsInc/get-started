@@ -22,7 +22,7 @@ spec:
             - name: ORG_NAME
               value: {{ .Values.common.orgName }}
             - name: SERVER_EXTERNAL_URI
-              value: {{ .Values.common.server.greenopsUrl }}
+              value: https://{{ .Values.common.server.greenopsUrl }}
             - name: LICENSE_KEY
               valueFrom:
                 secretKeyRef:
@@ -53,9 +53,9 @@ spec:
                   key: {{ .Values.common.sso.secret.clientSecretKey }}
                   optional: false
             - name: SSO_REDIRECT_URI
-              value: "{{ .Values.common.server.greenopsUrl }}/oauth2/callback"
+              value: "https://{{ .Values.common.server.greenopsUrl }}/oauth2/callback"
             - name: SSO_ISSUER_URI
-              value: {{ .Values.common.server.greenopsUrl }}/api/dex
+              value: https://{{ .Values.common.server.greenopsUrl }}/api/dex
             - name: SSO_PROVIDER_URI
               value: http://{{ .Values.dex.name }}:{{ .Values.dex.servicePortHttp }}
             {{ end }}
