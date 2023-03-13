@@ -39,6 +39,7 @@ server:
   imagePullPolicy: Always
   restartPolicy: Always
   port: 8080
+  enableLoadBalancer: false
 
 controller:
   name: greenops-controller

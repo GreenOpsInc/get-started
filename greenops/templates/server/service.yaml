@@ -6,6 +6,9 @@ metadata:
   name: {{ .Values.server.name }}
   namespace: {{ .Values.common.namespace }}
 spec:
+  {{ if .Values.server.enableLoadBalancer }}
+  type: LoadBalancer
+  {{ end }}
   ports:
     - name: {{ quote .Values.server.port }}
       port: {{ .Values.server.port }}
