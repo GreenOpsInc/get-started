@@ -1,0 +1,44 @@
+# This is an example using GKE Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: greenops-ingress
+  annotations:
+    kubernetes.io/ingress.allow-http: "false"
+    cert-manager.io/cluster-issuer: <YOUR_ISSUER>
+spec:
+  defaultBackend:
+    service:
+      name: greenops-server
+      port:
+        number: 443
+  tls:
+    - hosts:
+        - <YOUR_DOMAIN> 
+      secretName: greenops-tls
+  rules:
+  - host: <YOUR_DOMAIN>
+    http:
+      paths:
+      - path: /requests
+        pathType: Prefix
+        backend:
+          service:
+            name: greenops-commanddelegator
+            port:
+              number: 443
+      - path: /notifications
+        pathType: Prefix
+        backend:
+          service:
+            name: greenops-commanddelegator
+            port:
+              number: 443
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: greenops-server
+            port:
+              number: 443
+
