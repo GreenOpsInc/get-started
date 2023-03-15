@@ -21,6 +21,12 @@ spec:
         - env:
             - name: ORG_NAME
               value: {{ .Values.common.orgName }}
+            - name: SERVING_PORT
+              value: "{{ .Values.commandDelegator.port }}"
+            {{ if .Values.common.disableTLS }}
+            - name: DISABLE_TLS
+              value: "true"
+            {{ end }}
             - name: ATLAS_DB_ADDRESS
               value: {{ .Values.common.db.address }}
             {{ if .Values.common.db.password.enabled }}
@@ -34,6 +40,10 @@ spec:
           image: {{ .Values.commandDelegator.image }}
           imagePullPolicy: {{ .Values.commandDelegator.imagePullPolicy }}
           name: {{ .Values.commandDelegator.name }}
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: {{ .Values.commandDelegator.port }}
           ports:
             - containerPort: {{ .Values.commandDelegator.port }}
           resources: {}

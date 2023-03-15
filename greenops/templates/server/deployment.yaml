@@ -23,6 +23,16 @@ spec:
               value: {{ .Values.common.orgName }}
             - name: SERVER_EXTERNAL_URI
               value: https://{{ .Values.common.server.greenopsUrl }}
+            - name: COMMAND_DELEGATOR_SERVER_ENDPOINT
+              {{ if .Values.common.disableTLS }}
+              value: http://greenops-commanddelegator.greenops.svc.cluster.local:{{ .Values.commandDelegator.port }}
+              {{ else }}
+              value: https://greenops-commanddelegator.greenops.svc.cluster.local:{{ .Values.commandDelegator.port }}
+              {{ end }}
+            {{ if .Values.common.disableTLS }}
+            - name: DISABLE_TLS
+              value: "true"
+            {{ end }}
             - name: LICENSE_KEY
               valueFrom:
                 secretKeyRef:
@@ -64,6 +74,10 @@ spec:
           image: {{ .Values.server.image }}
           imagePullPolicy: {{ .Values.server.imagePullPolicy }}
           name: {{ .Values.server.name }}
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: {{ .Values.server.port }}
           ports:
             - containerPort: {{ .Values.server.port }}
           resources: {}

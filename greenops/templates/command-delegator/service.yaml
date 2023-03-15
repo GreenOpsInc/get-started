@@ -1,6 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
+{{- if .Values.commandDelegator.service.annotations }}
+  annotations:
+  {{- range $key, $value := .Values.commandDelegator.service.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+{{- end }}
   labels:
     {{- include "greenops.labels" (dict "context" . "component" .Values.commandDelegator.name "name" .Values.commandDelegator.name) | nindent 4 }}
   name: {{ .Values.commandDelegator.name }}

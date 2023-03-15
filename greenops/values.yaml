@@ -1,4 +1,5 @@
 common:
+  disableTLS: false
   kubernetes:
     generateRoles: true
     generateServiceAccount: true
@@ -40,6 +41,18 @@ server:
   restartPolicy: Always
   port: 8080
   enableLoadBalancer: false
+  service:
+    annotations: {}
+
+commandDelegator:
+  name: greenops-commanddelegator
+  image: docker.io/greenopsinc/commanddelegator:v1.0.0
+  port: 8080
+  replicas: 1
+  imagePullPolicy: Always
+  restartPolicy: Always
+  service:
+    annotations: {}
 
 controller:
   name: greenops-controller
@@ -54,14 +67,6 @@ controller:
 pipelineRepoServer:
   name: greenops-reposerver
   image: docker.io/greenopsinc/pipelinereposerver:v1.0.0
-  port: 8080
-  replicas: 1
-  imagePullPolicy: Always
-  restartPolicy: Always
-
-commandDelegator:
-  name: greenops-commanddelegator
-  image: docker.io/greenopsinc/commanddelegator:v1.0.0
   port: 8080
   replicas: 1
   imagePullPolicy: Always
