@@ -40,6 +40,7 @@ server:
   imagePullPolicy: Always
   restartPolicy: Always
   port: 8080
+  targetPort: 8080
   enableLoadBalancer: false
   service:
     annotations: {}
@@ -48,6 +49,7 @@ commandDelegator:
   name: greenops-commanddelegator
   image: docker.io/greenopsinc/commanddelegator:v1.0.0
   port: 8080
+  targetPort: 8080
   replicas: 1
   imagePullPolicy: Always
   restartPolicy: Always

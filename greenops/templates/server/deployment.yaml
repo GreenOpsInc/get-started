@@ -50,7 +50,7 @@ spec:
                   optional: false
             {{ end }}
             - name: SERVING_PORT
-              value: "{{ .Values.server.port }}"
+              value: "{{ .Values.server.targetPort }}"
             {{ if .Values.common.sso.enabled }}
             - name: SSO_CLIENT_ID
               valueFrom:
@@ -79,7 +79,7 @@ spec:
               path: /ready
               port: {{ .Values.server.port }}
           ports:
-            - containerPort: {{ .Values.server.port }}
+            - containerPort: {{ .Values.server.targetPort }}
           resources: {}
       {{ if .Values.common.imageCredentials.enabled }}
       imagePullSecrets:

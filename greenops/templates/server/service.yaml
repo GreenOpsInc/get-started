@@ -18,6 +18,6 @@ spec:
   ports:
     - name: {{ quote .Values.server.port }}
       port: {{ .Values.server.port }}
-      targetPort: {{ .Values.server.port }}
+      targetPort: {{ .Values.server.targetPort }}
   selector:
     {{- include "greenops.selectorLabels" (dict "context" . "name" .Values.server.name) | nindent 4 }}

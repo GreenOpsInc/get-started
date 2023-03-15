@@ -22,7 +22,7 @@ spec:
             - name: ORG_NAME
               value: {{ .Values.common.orgName }}
             - name: SERVING_PORT
-              value: "{{ .Values.commandDelegator.port }}"
+              value: "{{ .Values.commandDelegator.targetPort }}"
             {{ if .Values.common.disableTLS }}
             - name: DISABLE_TLS
               value: "true"
@@ -45,7 +45,7 @@ spec:
               path: /ready
               port: {{ .Values.commandDelegator.port }}
           ports:
-            - containerPort: {{ .Values.commandDelegator.port }}
+            - containerPort: {{ .Values.commandDelegator.targetPort }}
           resources: {}
       {{ if .Values.common.imageCredentials.enabled }}
       imagePullSecrets:
