@@ -14,5 +14,10 @@ terraform {
       source = "hashicorp/http"
       version = "3.2.1"
     }
+
+    greenops = {
+      version = "~> 1.0.0"
+      source  = "greenops.io/terraform-provider-greenops/greenops"
+    }
   }
 }
