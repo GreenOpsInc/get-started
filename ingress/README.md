@@ -13,11 +13,15 @@ All agents and servers are fully configured with secure authorized keys. Unknown
 
 ### Port Configuration
 
+
 GreenOps provides a secure TCP proxy service for managing Argo instances. The service is called `jumpserver`, it is in the `greenops` namespace. The pod uses the port `22`, but the service can be configured to use another port (which will then point to 22).
+
+Only the GreenOps agents connect to this service. This is to create a tunnel and proxy Argo to the cluster where the control plane is hosted.
 
 By default, port 22 is used. If you would like to configure another port number, set the new port in the GreenOps Helm chart by setting the variable `common.server.tunnelingPort`. For example, if a user wanted to expose TCP on port `1234`, they would make the ingress-specific changes described below and add the following flag when deploying the GreenOps control plane Helm chart: `--set 'common.server.tunnelingPort=\"1234\"'`.
 
-Only GreenOps agents require access to this service.
+### Where is Argo Exposed?
+There is generally a 1-1 mapping between clusters registered in GreenOps and Argo servers. Once the proxy connection is established, the Argo services will be available locally from the control plane via a Kubernetes service. For example, if there is a cluster called `example`, there will be a service called `example` created which provides access to Argo. Port `5000` is for Argo CD, and port `5001` is for Argo Workflows. Ingress should be attached to these services to expose them outside of the cluster/embed them in the GreenOps UI.
 
 ## Using GKE Ingress
 
