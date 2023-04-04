@@ -29,6 +29,10 @@ spec:
               value: {{ .Values.namespace }}
             - name: ARGO_WORKFLOWS_URL
               value: {{ .Values.common.argo.workflows.url }}
+            - name: ARGO_WORKFLOWS_INTERNAL_URL
+              value: {{ .Values.common.argo.workflows.internalUrl }}
+            - name: ARGOCD_URL
+              value: {{ .Values.common.argo.cd.internalUrl }}
             - name: GREENOPS_API_KEY
               valueFrom:
                 secretKeyRef:

@@ -51,6 +51,8 @@ spec:
             {{ end }}
             - name: SERVING_PORT
               value: "{{ .Values.server.targetPort }}"
+            - name: JUMP_SERVER_SSH_PORT
+              value: {{ .Values.common.server.tunnelingPort }}
             {{ if .Values.common.sso.enabled }}
             - name: SSO_CLIENT_ID
               valueFrom:
@@ -74,10 +76,12 @@ spec:
           image: {{ .Values.server.image }}
           imagePullPolicy: {{ .Values.server.imagePullPolicy }}
           name: {{ .Values.server.name }}
+          {{ if .Values.common.disableTLS }}
           readinessProbe:
             httpGet:
               path: /ready
               port: {{ .Values.server.port }}
+          {{ end }}
           ports:
             - containerPort: {{ .Values.server.targetPort }}
           resources: {}

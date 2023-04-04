@@ -40,10 +40,12 @@ spec:
           image: {{ .Values.commandDelegator.image }}
           imagePullPolicy: {{ .Values.commandDelegator.imagePullPolicy }}
           name: {{ .Values.commandDelegator.name }}
+          {{ if .Values.common.disableTLS }}
           readinessProbe:
             httpGet:
               path: /ready
               port: {{ .Values.commandDelegator.port }}
+          {{ end }}
           ports:
             - containerPort: {{ .Values.commandDelegator.targetPort }}
           resources: {}
