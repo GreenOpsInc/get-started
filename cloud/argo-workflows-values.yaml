@@ -1,0 +1,41 @@
+useDefaultArtifactRepo: true
+artifactRepository:
+  archiveLogs: true
+  s3:
+    accessKeySecret:
+      key: accesskey
+      name: greenops-s3
+    endpoint: s3.amazonaws.com
+    insecure: false
+    secretKeySecret:
+      key: secretkey
+      name: greenops-s3
+controller:
+  persistence:
+  archive: true
+  archiveTTL: 180d
+  connectionPool:
+    maxIdleConns: 100
+    maxOpenConns: 0
+  nodeStatusOffLoad: false
+  postgresql:
+    passwordSecret:
+      key: password
+      name: greenops-postgres
+    userNameSecret:
+      key: username
+      name: greenops-postgres
+  workflowDefaults:
+    spec:
+      ttlStrategy:
+        secondsAfterCompletion: 10
+  workflowNamespaces:
+    - argo
+server:
+  image:
+    registry: docker.io
+    repository: greenopsinc/argo-server
+    tag: 3.4.6
+  rbac:
+    create: false
+  secure: true

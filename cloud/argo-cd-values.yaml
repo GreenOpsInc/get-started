@@ -1,0 +1,4 @@
+applicationSet:
+  enabled: false
+notifications:
+  enabled: false
