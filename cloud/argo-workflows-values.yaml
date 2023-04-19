@@ -12,19 +12,19 @@ artifactRepository:
       name: greenops-s3
 controller:
   persistence:
-  archive: true
-  archiveTTL: 180d
-  connectionPool:
-    maxIdleConns: 100
-    maxOpenConns: 0
-  nodeStatusOffLoad: false
-  postgresql:
-    passwordSecret:
-      key: password
-      name: greenops-postgres
-    userNameSecret:
-      key: username
-      name: greenops-postgres
+    archive: true
+    archiveTTL: 180d
+    connectionPool:
+      maxIdleConns: 100
+      maxOpenConns: 0
+    nodeStatusOffLoad: false
+    postgresql:
+      passwordSecret:
+        key: password
+        name: greenops-postgres
+      userNameSecret:
+        key: username
+        name: greenops-postgres
   workflowDefaults:
     spec:
       ttlStrategy:
