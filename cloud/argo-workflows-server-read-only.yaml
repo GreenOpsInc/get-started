@@ -1,0 +1,139 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: greenops-wf-argo-workflows-server
+  labels:
+    app.kubernetes.io/name: argo-workflows-server
+    app.kubernetes.io/instance: greenops-wf
+    app.kubernetes.io/component: server
+    app.kubernetes.io/part-of: argo-workflows
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - events
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - pods/log
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - watch
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  resourceNames:
+  - greenops-postgres
+  - greenops-postgres
+  verbs:
+  - get
+- apiGroups:
+    - argoproj.io
+  resources:
+    - eventsources
+    - sensors
+    - workflows
+    - workfloweventbindings
+    - workflowtemplates
+    - cronworkflows
+  verbs:
+    # - create
+    - get
+    - list
+    - watch
+    # - update
+    # - patch
+    # - delete
+---
+# Source: argo-workflows/templates/server/server-cluster-roles.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: greenops-wf-argo-workflows-server-cluster-template
+  labels:
+    app.kubernetes.io/name: argo-workflows-server
+    app.kubernetes.io/instance: greenops-wf
+    app.kubernetes.io/component: server
+    app.kubernetes.io/part-of: argo-workflows
+rules:
+- apiGroups:
+  - argoproj.io
+  resources:
+  - clusterworkflowtemplates
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+---
+# Source: argo-workflows/templates/server/server-crb.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: greenops-wf-argo-workflows-server
+  labels:
+    app.kubernetes.io/name: argo-workflows-server
+    app.kubernetes.io/instance: greenops-wf
+    app.kubernetes.io/component: server
+    app.kubernetes.io/part-of: argo-workflows
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: greenops-wf-argo-workflows-server
+subjects:
+- kind: ServiceAccount
+  name: greenops-wf-argo-workflows-server
+  namespace: argo
+---
+# Source: argo-workflows/templates/server/server-crb.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: greenops-wf-argo-workflows-server-cluster-template
+  labels:
+    app.kubernetes.io/name: argo-workflows-server
+    app.kubernetes.io/instance: greenops-wf
+    app.kubernetes.io/component: server
+    app.kubernetes.io/part-of: argo-workflows
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: greenops-wf-argo-workflows-server-cluster-template
+subjects:
+- kind: ServiceAccount
+  name: greenops-wf-argo-workflows-server
+  namespace: argo
