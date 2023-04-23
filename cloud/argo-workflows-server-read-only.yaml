@@ -124,7 +124,6 @@ subjects:
 - kind: ServiceAccount
   name: greenops-wf-argo-workflows-server
   namespace: argo
-subjects:
 - kind: ServiceAccount
   name: greenops-argo-auth
   namespace: greenops
@@ -147,7 +146,6 @@ subjects:
 - kind: ServiceAccount
   name: greenops-wf-argo-workflows-server
   namespace: argo
-subjects:
 - kind: ServiceAccount
   name: greenops-argo-auth
   namespace: greenops
