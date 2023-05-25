@@ -89,11 +89,16 @@ spec:
                       type: string
                     teamName:
                       type: string
+                    variables:
+                      additionalProperties:
+                        type: string
+                      type: object
                   required:
                   - orgName
                   - pipelineUvn
                   - revisionHash
                   - teamName
+                  - variables
                   type: object
                 type: array
             type: object
