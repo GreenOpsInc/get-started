@@ -22,3 +22,8 @@ image: docker.io/greenopsinc/godaemon:v1.0.1-rc
 replicas: 1
 imagePullPolicy: Always
 restartPolicy: Always
+extraEnvs: []
+  # - name: VAR_1
+  #   value: example
+  # - name: VAR_2
+  #   value: example2,example3

@@ -37,6 +37,10 @@ spec:
                   name: {{ .Values.common.greenopsApiKey.secretName }}
                   key: {{ .Values.common.greenopsApiKey.key }}
                   optional: false
+            {{- range .Values.extraEnvs }}
+            - name: {{ .name }}
+              value: {{ .value }}
+            {{- end }}
           image: {{ .Values.image }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           name: {{ .Values.name }}
