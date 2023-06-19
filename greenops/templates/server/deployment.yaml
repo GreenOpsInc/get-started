@@ -73,6 +73,16 @@ spec:
             - name: SSO_PROVIDER_URI
               value: http://{{ .Values.dex.name }}:{{ .Values.dex.servicePortHttp }}
             {{ end }}
+            - name: MULTI_TENANT
+              value: "true"
+            - name: DNS_INGRESS_EXTERNAL_IP
+              value: {{ .Values.common.server.ingressIp }}
+            - name: DNS_PROJECT_ID
+              value: greenops-dev
+            - name: DNS_ZONE_NAME
+              value: greenops-dns-zone
+            - name: DNS_SERVICE_ACCOUNT_SECRET_NAME
+              value: greenops-dns-service-account
           image: {{ .Values.server.image }}
           imagePullPolicy: {{ .Values.server.imagePullPolicy }}
           name: {{ .Values.server.name }}

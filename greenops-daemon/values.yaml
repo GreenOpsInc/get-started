@@ -24,7 +24,7 @@ name: greenops-daemon
 namespace: greenops
 argoNamespace: argo
 orgName: org
-image: docker.io/greenopsinc/godaemon:v1.0.2
+image: docker.io/greenopsinc/godaemon:v1.0.4
 replicas: 1
 imagePullPolicy: Always
 restartPolicy: Always

@@ -35,13 +35,14 @@ rules:
     resources:
       - namespaces
     verbs: [ "get" ]
-  - apiGroups: ["", "apps", "core", "pipeline.greenopsinc.io"]
+  - apiGroups: ["", "apps", "core", "networking.k8s.io", "pipeline.greenopsinc.io"]
     resources:
       - secrets
       - configmaps
       - deployments
       - pods
       - services
+      - ingresses
       - pipelines
       - pipelines/status
     verbs: [ "*" ]

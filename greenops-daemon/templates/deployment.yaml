@@ -27,6 +27,8 @@ spec:
               value: {{ .Values.common.clusterName }}
             - name: NAMESPACE
               value: {{ .Values.namespace }}
+            - name: ORG_NAME
+              value: {{ .Values.orgName }}
             - name: ARGO_WORKFLOWS_URL
               value: {{ .Values.common.argo.workflows.url }}
             - name: ARGO_WORKFLOWS_INTERNAL_URL
