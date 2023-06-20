@@ -33,7 +33,7 @@ helm repo update greenops
 and install the control plane. GreenOps requires some kind of URL (Ingress, LoadBalancer, or NodePort if the entire installation is in one cluster). Enter the defined GreenOps address into the `<GREENOPS_URL>` section of the install command.
 
 ```
-helm install greenops ./greenops-1.0.1.tgz --set 'common.server.greenopsUrl=<GREENOPS_URL>'
+helm install greenops greenops/greenops --version 1.0.4 --set 'common.server.greenopsUrl=<GREENOPS_URL>'
 ```
 
 The chart also automatically sets up a Redis instance as a part of the deployment. A different Redis instance can also be linked by setting the address and password (optional) in the [values.yaml file](https://github.com/GreenOpsInc/get-started/blob/main/greenops/values.yaml#L3).
@@ -73,7 +73,14 @@ After logging in, you should be able to see this page:
 
 ## Registering a cluster
 
-###Setting up Argo Workflows
+### Setting up Argo Workflows & Argo CD
+
+For SaaS, GreenOps will automatically install, configure, and manage Argo Workflows & Argo CD.
+
+For on-prem, users have to deploy Argo Workflows & CD themselves. GreenOps will help with configuration and linking.
+
+#### Argo Workflows
+
 To register a cluster, first we have to set up Argo Workflows. A quickstart is provided [here](https://github.com/GreenOpsInc/get-started/tree/main/argo-workflows). Before deploying, update the empty spaces in the manifest for the `FRAME_ANCESTOR` in the [environment variables section](https://github.com/GreenOpsInc/get-started/blob/main/argo-workflows/quick-start-postgres.yaml#L1708) and `--access-control-allow-origin` in the [arguments section](https://github.com/GreenOpsInc/get-started/blob/main/argo-workflows/quick-start-postgres.yaml#L1702). Both of the values should be the GreenOps URL.
 
 The manifest can be installed as a file:
@@ -99,7 +106,11 @@ EOF
 
 An accessible URL should also be set up for Argo Workflows. This can be via Ingress, LoadBalancer, or NodePort if the entire installation is in one cluster.
 
-*Soon Argo Workflows can be managed by GreenOps, and can be installed automatically after registering a cluster.*
+#### Argo CD
+
+Any installation of Argo CD will work. The only requirement is to add the (externally accessible) URL for Argo CD into the ConfigMap under the `url` section. The variable to configure this in the Helm chart is `configs.cm.url`.
+
+An accessible URL should also be set up for Argo CD. This can be via Ingress, LoadBalancer, or NodePort if the entire installation is in one cluster.
 
 ### Setting up a GreenOps agent
 After setting up Argo Workflows, let's navigate to the GreenOps cluster page:
@@ -121,21 +132,15 @@ Using the Helm chart, install the `greenops-daemon` package. Use the cluster nam
 **Note**: Do not add `https://` in front of any URLs. An example of `<ARGOCD_URL>` would be `argocd-server.argocd.svc.cluster.local`.
 
 ```
-helm install greenops-daemon ./greenops-daemon-1.0.1.tgz --set 'common.clusterName=<CLUSTER_NAME>' --set 'common.argo.workflows.url=<ARGO_WORKFLOWS_URL>' --set 'common.greenopsServer.url=<GREENOPS_URL>' --set 'common.commandDelegator.url=<GREENOPS_URL>' --set 'common.argo.cd.internalUrl=<ARGOCD_URL>'
+helm install greenops-daemon greenops/greenops-daemon --version 1.0.4 --set 'common.clusterName=<CLUSTER_NAME>' --set 'common.argo.workflows.url=<ARGO_WORKFLOWS_URL>' --set 'common.argo.workflows.internalUrl=<ARGO_WORKFLOWS_KUBERNETES_URL>' --set 'common.greenopsServer.url=<GREENOPS_URL>' --set 'common.commandDelegator.url=<GREENOPS_URL>' --set 'common.argo.cd.internalUrl=<ARGOCD_KUBERNETES_URL>'
 ```
 
 You should now be able to see a green check mark next to the cluster on the GreenOps UI. It may take up to 30 seconds to register.
 
 ![Screenshot](https://greenops.io/go-docs/img/registered-cluster.png)
 
-### Enabling private instances
+### Enabling tunneling and private instances
+
+GreenOps supports connecting Argo instances across different environments to the control plane. It creates "mirror services" on the control plane that can then be exposed via ingress for developer teams to use.
 
 To do this, a TCP port has to be added to the ingress controller for connectivity. The [ingress section](ingress/) has a guide for setting this up.
-
-## What's next?
-
-Now that GreenOps is set up, you can now build all the CI/CD pipelines you want, lightning fast. So what's next?
-
-* [Setting up Argo CD instances across clusters](buildbook/cluster-argo-configuration.md)
-* [Building your first pipeline with GreenOps](buildbook/walkthroughs/walkthroughs.md)
-* [Configuring SSO](management/auth.md)

@@ -74,7 +74,7 @@ spec:
               value: http://{{ .Values.dex.name }}:{{ .Values.dex.servicePortHttp }}
             {{ end }}
             - name: MULTI_TENANT
-              value: "true"
+              value: {{ .Values.common.multiTenant}}
             - name: DNS_INGRESS_EXTERNAL_IP
               value: {{ .Values.common.server.ingressIp }}
             - name: DNS_PROJECT_ID

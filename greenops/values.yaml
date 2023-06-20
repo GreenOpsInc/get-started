@@ -1,4 +1,5 @@
 common:
+  multiTenant: "false"
   disableTLS: false
   kubernetes:
     generateRoles: true
